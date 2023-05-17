@@ -1,6 +1,6 @@
 "use strict"
 const Game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', { preload, create, update })
-let b, cat, cat2, cat3, cat4
+let background, cat, cat2, cat3, cat4
 let cursors
 let l = 0, r = 0, d = 0, u = 0
 let up_a, down_a, left_a, right_a
@@ -10,12 +10,14 @@ let up_aa2, down_aa2, left_aa2, right_aa2
 let upg, downg, rightg, leftg
 let upg2, downg2, rightg2, leftg2
 let music1, music2, music3
-var points = 0
+let points = 0
+let isRulesShown = false;
 let radio, level1, level2, level3, levelf, currlevel = 1, win, credits
-let countu = 0, countd = 0, countl = 0, countr = 0, someother = 0, a = 0;
-let countl2 = 0, countr2 = 0, countu2 = 0, countd2 = 0, cu = 0, cd = 0, cl = 0, cr = 0
+let hitboxEnter = 206 * 0.8 - 80, hitboxExit = -206 * 0.8 + 80
+let countu = 0, countd = 0, countl = 0, countr = 0, currMusic = 0;
+let countl2 = 0, countr2 = 0, countu2 = 0, countd2 = 0;
 let countuu = 0, countdd = 0, countll = 0, countrr = 0
-let countll2 = 0, countrr2 = 0, countuu2 = 0, countdd2 = 0, cuu = 0, cdd = 0, cll = 0, crr = 0
+let countll2 = 0, countrr2 = 0, countuu2 = 0, countdd2 = 0;
 let needed = 9, clicks, go
 function preload() {
     Game.load.spritesheet('cat', 'pictures/cat-spritesheets/cat.png', (383 * 3) / 3, (383 * 6) / 6)
@@ -55,9 +57,9 @@ function create() {
     music3 = this.sound.add('music3')
     //music1.play()
     Game.stage.backgroundColor = '#ffffff'
-    b = Game.add.sprite(0, 0, 'background')
-    b.width = window.innerWidth
-    b.height = window.innerHeight
+    background = Game.add.sprite(0, 0, 'background')
+    background.width = window.innerWidth
+    background.height = window.innerHeight
 
     radio = Game.add.sprite(Game.width / 2, Game.height / 2 + 100, 'radio')
     radio.anchor.setTo(0.5)
@@ -166,7 +168,7 @@ function create() {
     level3 = Game.add.sprite(0, Game.height / 2, 'level3')
     level3.anchor.setTo(1, 0.5)
     level3.scale.setTo(0.7)
-    
+
     levelf = Game.add.sprite(0, Game.height / 2, 'levelf')
     levelf.anchor.setTo(1, 0.5)
     levelf.scale.setTo(0.5)
@@ -184,33 +186,22 @@ function create() {
     credits.scale.setTo(0.5)
     cursors = Game.input.keyboard.createCursorKeys()
     this.pointsText = this.add.text(Game.width / 2 - 100, 16, 'Points: ', { fontSize: '32px', fill: '#000' })
-    //this.curtext = this.add.text(Game.width / 2 - 100, 116, 'b: ', { fontSize: '32px', fill: '#000' })
 }
 
 function update() {
-    this.pointsText.text = "Points: " + points + "/" + needed + " to pass."
-    radio.animations.play('dance')
-    if (someother == 0) { music1.play(); someother = 1; }
-    // if (a == 0) { someother = 2; countu2 = 8; countd2 = 7; countr2 = 7; countl2 = 8; countuu2 = 1, countdd2 = 2; countrr2 = 1; countll2 = 1; countu = 7; countd = 7; countr = 7; countl = 7; countuu = 1; countdd = 2; countrr = 1, cu = 4; cuu = 2; cd = 4; cl = 4; cr = 4; cdd = 2; crr = 1; a = 1; }
+    this.pointsText.text = "Points: " + points + "/" + needed + " to pass.";
+    radio.animations.play('dance');
+    if (currMusic == 0) { music1.play(); currMusic = 1; }
+
     if (currlevel == 1) Level1();
     else if (currlevel == 2) Level2();
     else if (currlevel == 3) Level3();
-
-    function Level1() {
-        if (a == 0) {
-            if (level1.x != Game.innerwidth) level1.x += 10
-            setTimeout(function () {
-                if (up_a.y > 0 && countu == 0) { up_a.y -= 5; cat2.animations.play('stay2'); cat.animations.play('stay') }
-                else if (countu < 1) { countu++; up_a.y = window.innerHeight; if (cu == 0) { cat2.animations.play('up2'); cu++ } }
-                setTimeout(function () {
-                    if (down_a.y > 0 && countd == 0) { down_a.y -= 5 }
-                    else if (countd < 1) { countd++; down_a.y = window.innerHeight; if (cd == 0) { cat2.animations.play('down2'); cd++ } }
-                }
-                    , 1000)
-            }, 6100)
-            setTimeout(function () {
-                if (countu2 == 0) up_a2.y -= 5
-                if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
+    
+    function arrowKeys(numberOfArrow, direction, speed) {
+        if (numberOfArrow == 1) {
+            if (direction == "up") {
+                up_a2.y -= speed
+                if (up_a2.y < hitboxEnter && up_a2.y >= hitboxExit) {
                     if (cursors.up.isDown) {
                         cat.animations.play('up');
                         points++
@@ -218,86 +209,44 @@ function update() {
                         up_a2.y = window.innerHeight
                     }
                 }
-                else if (up_a2.y < -206 * 0.8 +80) {
+                else if (up_a2.y < hitboxExit) {
                     countu2++
                     up_a2.y = window.innerHeight
                 }
-                setTimeout(function () {
-                    if (countd2 == 0) down_a2.y -= 5
-                    if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80)
-                        if (cursors.down.isDown) {
-                            cat.animations.play('down')
-                            points++
-                            countd2++
-                            down_a2.y = window.innerHeight
-                        }
-                        else if (down_a2.y < -206 * 0.8 +80) {
-                            countd2++
-                            down_a2.y = window.innerHeight
-                        }
-                }, 1000)
-            }, 8000)
-            setTimeout(function () {
-                if (left_a.y > 0 && countl == 0) { left_a.y -= 5; cat2.animations.play('stay2'); }
-                else if (countl < 1) { countl++; left_a.y = window.innerHeight; if (cl == 0) { cat2.animations.play('left2'); cat.animations.play('stay'); cl++ } }
-                setTimeout(function () {
-                    if (right_a.y > 0 && countr == 0) { right_a.y -= 5 }
-                    else if (countr < 1) { countr++; right_a.y = window.innerHeight; if (cr == 0) { cat2.animations.play('right2'); cr++ } }
-                }
-                    , 800)
-            }, 9800)
-            setTimeout(function () {
-                if (countl2 == 0) left_a2.y -= 5
-                if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.left.isDown) {
-                        cat.animations.play('left');
+            }
+            else if (direction == "down") {
+                down_a2.y -= speed
+                if (down_a2.y < hitboxEnter && down_a2.y >= hitboxExit) {
+                    if (cursors.down.isDown) {
+                        cat.animations.play('down');
                         points++
-                        countl2++
-                        left_a2.y = window.innerHeight
+                        countd2++
+                        down_a2.y = window.innerHeight
                     }
                 }
-                else if (left_a2.y < -206 * 0.8 +80) {
-                    countl2++
-                    left_a2.y = window.innerHeight
+                else if (down_a2.y < hitboxExit) {
+                    countd2++
+                    down_a2.y = window.innerHeight
                 }
-                setTimeout(function () {
-                    if (countr2 == 0) right_a2.y -= 5
-                    if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.right.isDown) {
-                            cat.animations.play('right')
-                            points++
-                            countr2++
-                            right_a2.y = window.innerHeight
-                        }
-                    }
-                    else if (right_a2.y < -206 * 0.8 +80) {
+            }
+            else if (direction == "right") {
+                right_a2.y -= speed
+                if (right_a2.y < hitboxEnter && right_a2.y >= hitboxExit) {
+                    if (cursors.right.isDown) {
+                        cat.animations.play('right');
+                        points++
                         countr2++
                         right_a2.y = window.innerHeight
                     }
-                }, 900)
-            }, 11800)
-            setTimeout(function () {
-                if (left_a.y > 0 && countl == 1) { left_a.y -= 5; cat2.animations.play('stay2'); }
-                else if (countl < 2) { countl++; left_a.y = window.innerHeight; if (cl == 1) { cat2.animations.play('left2'); cat.animations.play('stay'); cl++ } }
-                setTimeout(function () {
-                    if (right_a.y > 0 && countr == 1) { right_a.y -= 5 }
-                    else if (countr < 2) { countr++; right_a.y = window.innerHeight; if (cr == 1) { cat2.animations.play('right2'); cr++ } }
                 }
-                    , 1000)
-                setTimeout(function () {
-                    if (up_a.y > 0 && countu == 1) { up_a.y -= 5 }
-                    else if (countu < 2) { countu++; up_a.y = window.innerHeight; if (cu == 1) { cat2.animations.play('up2'); cu++ } }
+                else if (right_a2.y < hitboxExit) {
+                    countr2++
+                    right_a2.y = window.innerHeight
                 }
-                    , 2000)
-                setTimeout(function () {
-                    if (down_a.y > 0 && countd == 1) { down_a.y -= 5 }
-                    else if (countd < 2) { countd++; down_a.y = window.innerHeight; if (cd == 1) { cat2.animations.play('down2'); cd++ } }
-                }
-                    , 3000)
-            }, 13400)
-            setTimeout(function () {
-                if (countl2 == 1) left_a2.y -= 5
-                if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
+            }
+            else if (direction == "left") {
+                left_a2.y -= speed
+                if (left_a2.y < hitboxEnter && left_a2.y >= hitboxExit) {
                     if (cursors.left.isDown) {
                         cat.animations.play('left');
                         points++
@@ -305,645 +254,562 @@ function update() {
                         left_a2.y = window.innerHeight
                     }
                 }
-                else if (left_a2.y < -206 * 0.8 +80) {
+                else if (left_a2.y < hitboxExit) {
                     countl2++
                     left_a2.y = window.innerHeight
                 }
-                setTimeout(function () {
-                    if (countr2 == 1) right_a2.y -= 5
-                    if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.right.isDown) {
-                            cat.animations.play('right')
-                            points++
-                            countr2++
-                            right_a2.y = window.innerHeight
-                        }
-                    }
-                    else if (right_a2.y < -206 * 0.8 +80) {
-                        countr2++
-                        right_a2.y = window.innerHeight
-                    }
-                    setTimeout(function () {
-                        if (countu2 == 1) up_a2.y -= 5
-                        if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                            if (cursors.up.isDown) {
-                                cat.animations.play('up')
-                                points++
-                                countu2++
-                                up_a2.y = window.innerHeight
-                            }
-                        }
-                        else if (up_a2.y < -206 * 0.8 +80) {
-                            countu2++
-                            up_a2.y = window.innerHeight
-                        }
-                        setTimeout(function () {
-                            if (countd2 == 1) down_a2.y -= 5
-                            if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80) {
-                                if (cursors.down.isDown) {
-                                    cat.animations.play('down')
-                                    points++
-                                    countd2++
-                                    down_a2.y = window.innerHeight
-                                }
-                            }
-                            else if (down_a2.y < -206 * 0.8 +80) {
-                                countd2++
-                                down_a2.y = window.innerHeight
-                            }
-                        }, 900)
-                    }, 900)
-                }, 900)
-            }, 17200)
-            setTimeout(function () {
-                if (right_a.y > 0 && countr == 2) { right_a.y -= 5; cat2.animations.play('stay2'); }
-                else if (countr < 3) {
-                    countr++; right_a.y = window.innerHeight; if (cr == 2) { cat2.animations.play('right2'); cat.animations.play('stay'); cr++ }
-                }
-                setTimeout(function () {
-                    if (down_a.y > 0 && countd == 2) { down_a.y -= 5 }
-                    else if (countd < 3) { countd++; down_a.y = window.innerHeight; if (cd == 2) { cat2.animations.play('down2'); cd++ } }
-                }
-                    , 1000)
-                setTimeout(function () {
-                    if (left_a.y > 0 && countl == 2) { left_a.y -= 5; }
-                    else if (countl < 3) {
-                        countl++; left_a.y = window.innerHeight; if (cl == 2) { cat2.animations.play('left2'); cl++ }
-                    }
-                }
-                    , 2000)
-                setTimeout(function () {
-                    if (up_a.y > 0 && countu == 2) { up_a.y -= 5 }
-                    else if (countu < 3) { countu++; up_a.y = window.innerHeight; if (cu == 2) { cat2.animations.play('up2'); cu++ } }
-                }
-                    , 3000)
-
-            }, 20500)
-            setTimeout(function () {
-                if (countr2 == 2) right_a2.y -= 5
-                if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                    if (cursors.right.isDown) {
-                        cat.animations.play('right')
-                        points++
-                        countr2++
-                        right_a2.y = window.innerHeight
-                    }
-                }
-                else if (right_a2.y < -206 * 0.8 +80) {
-                    countr2++
-                    right_a2.y = window.innerHeight
-                }
-                setTimeout(function () {
-                    if (countd2 == 2) down_a2.y -= 5
-                    if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.down.isDown) {
-                            cat.animations.play('down')
-                            points++
-                            countd2++
-                            down_a2.y = window.innerHeight
-                        }
-                    }
-                    else if (down_a2.y < -206 * 0.8 +80) {
-                        countd2++
-                        down_a2.y = window.innerHeight
-                    }
-
-                    setTimeout(function () {
-                        if (countl2 == 2) left_a2.y -= 5
-                        if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                            if (cursors.left.isDown) {
-                                cat.animations.play('left');
-                                points++
-                                countl2++
-                                left_a2.y = window.innerHeight
-                            }
-                        }
-                        else if (left_a2.y < -206 * 0.8 +80) {
-                            countl2++
-                            left_a2.y = window.innerHeight
-                        }
-                        setTimeout(function () {
-                            if (countu2 == 2) up_a2.y -= 5
-                            if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                                if (cursors.up.isDown) {
-                                    cat.animations.play('up')
-                                    points++
-                                    countu2++
-                                    up_a2.y = window.innerHeight
-                                }
-                            }
-                            else if (up_a2.y < -206 * 0.8 +80) {
-                                countu2++
-                                up_a2.y = window.innerHeight
-                            }
-
-                        }, 900)
-                    }, 900)
-                }, 900)
-            }, 24500)
-            setTimeout(function () {
-                if (points >= 9 && countu2 == 3) { currlevel = 2; a = 1; needed = 28 }
-                else if (points < 9 && countu2 == 3) {
-                    levelf.anchor.setTo(0.5)
-                    levelf.x = Game.width / 2
-                    setTimeout(function () {
-                        window.location.reload();
-                    },
-                        1000)
-                }
-            }, 34000)
+            }
         }
+        else if (numberOfArrow == 2) {
+            if (direction == "up") {
+                up_aa2.y -= speed
+                if (up_aa2.y < hitboxEnter && up_aa2.y >= hitboxExit) {
+                    if (cursors.up.isDown) {
+                        cat.animations.play('up');
+                        points++
+                        countuu2++
+                        up_aa2.y = window.innerHeight
+                    }
+                }
+                else if (up_aa2.y < hitboxExit) {
+                    countuu2++
+                    up_aa2.y = window.innerHeight
+                }
+            }
+            else if (direction == "down") {
+                down_aa2.y -= speed
+                if (down_aa2.y < hitboxEnter && down_aa2.y >= hitboxExit) {
+                    if (cursors.down.isDown) {
+                        cat.animations.play('down');
+                        points++
+                        countdd2++
+                        down_aa2.y = window.innerHeight
+                    }
+                }
+                else if (down_aa2.y < hitboxExit) {
+                    countdd2++
+                    down_aa2.y = window.innerHeight
+                }
+            }
+            else if (direction == "right") {
+                right_aa2.y -= speed
+                if (right_aa2.y < hitboxEnter && right_aa2.y >= hitboxExit) {
+                    if (cursors.right.isDown) {
+                        cat.animations.play('right');
+                        points++
+                        countrr2++
+                        right_aa2.y = window.innerHeight
+                    }
+                }
+                else if (right_aa2.y < hitboxExit) {
+                    countrr2++
+                    right_aa2.y = window.innerHeight
+                }
+            }
+            else if (direction == "left") {
+                left_aa2.y -= speed
+                if (left_aa2.y < hitboxEnter && left_aa2.y >= hitboxExit) {
+                    if (cursors.left.isDown) {
+                        cat.animations.play('left');
+                        points++
+                        countll2++
+                        left_aa2.y = window.innerHeight
+                    }
+                }
+                else if (left_aa2.y < hitboxExit) {
+                    countll2++
+                    left_aa2.y = window.innerHeight
+                }
+            }
+        }
+    }
+    function npcArrowKeys(numberofArrow, direction, speed, whichCat) {
+        if (numberofArrow == 1) {
+            if (direction == "up") {
+                if (up_a.y > 0) {
+                    up_a.y -= speed;
+                }
+                else {
+                    npcArrowKeys("left", 5, 1)
+                    countu++;
+                    up_a.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('up2');
+                    else if (whichCat == 2) cat3.animations.play('up3')
+                }
+            }
+            else if (direction == "down") {
+                if (down_a.y > 0) {
+                    down_a.y -= speed;
+                }
+                else {
+                    countd++;
+                    down_a.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('down2');
+                    else if (whichCat == 2) cat3.animations.play('down3')
+                }
+            }
+            else if (direction == "right") {
+                if (right_a.y > 0) {
+                    right_a.y -= speed;
+                }
+                else {
+                    countr++;
+                    right_a.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('right2');
+                    else if (whichCat == 2) cat3.animations.play('right3')
+                }
+            }
+            else if (direction == "left") {
+                if (left_a.y > 0) {
+                    left_a.y -= speed;
+                }
+                else {
+                    countl++;
+                    left_a.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('left2');
+                    else if (whichCat == 2) cat3.animations.play('left3')
+                }
+            }
+
+        }
+        if (numberofArrow == 2) {
+            if (direction == "up") {
+                if (up_aa.y > 0) {
+                    up_aa.y -= speed;
+                }
+                else {
+                    countuu++;
+                    up_aa.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('up2');
+                    else if (whichCat == 2) cat3.animations.play('up3')
+                }
+            }
+            else if (direction == "down") {
+                if (down_aa.y > 0) {
+                    down_aa.y -= speed;
+                }
+                else {
+                    countdd++;
+                    down_aa.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('down2');
+                    else if (whichCat == 2) cat3.animations.play('down3')
+                }
+            }
+            else if (direction == "right") {
+                if (right_aa.y > 0) {
+                    right_aa.y -= speed;
+                }
+                else {
+                    countrr++;
+                    right_aa.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('right2');
+                    else if (whichCat == 2) cat3.animations.play('right3')
+                }
+            }
+            else if (direction == "left") {
+                if (left_aa.y > 0) {
+                    left_aa.y -= speed;
+                }
+                else {
+                    countll++;
+                    left_aa.y = window.innerHeight;
+                    if (whichCat == 1) cat2.animations.play('left2');
+                    else if (whichCat == 2) cat3.animations.play('left3')
+                }
+            }
+
+        }
+    }
+
+    function Level1() {
+        if (level1.x != Game.innerwidth) level1.x += 10
+        setTimeout(function () {
+            if (countu == 0) {
+                npcArrowKeys(1, "up", 5, 1)
+            }
+        }, 6100)
+        setTimeout(function () {
+            if (countd == 0) {
+                npcArrowKeys(1, "down", 5, 1)
+            }
+        }
+            , 7100)
+        setTimeout(function () {
+            if (countu2 == 0) {
+                arrowKeys(1, "up", 5);
+            }
+            setTimeout(function () {
+                if (countd2 == 0) {
+                    arrowKeys(1, "down", 5);
+                }
+            }, 1000)
+        }, 8000)
+        setTimeout(function () {
+            if (countl == 0) {
+                npcArrowKeys(1, "left", 5, 1)
+            }
+            setTimeout(function () {
+                if (countr == 0) {
+                    npcArrowKeys(1, "right", 5, 1)
+                }
+            }
+                , 800)
+        }, 9800)
+        setTimeout(function () {
+            if (countl2 == 0) {
+                arrowKeys(1, "left", 5);
+            }
+            setTimeout(function () {
+                if (countr2 == 0) {
+                    arrowKeys(1, "right", 5);
+                }
+            }, 900)
+        }, 11800)
+        setTimeout(function () {
+            if (countl == 1) {
+                npcArrowKeys(1, "left", 5, 1)
+            }
+            setTimeout(function () {
+                if (countr == 1) {
+                    npcArrowKeys(1, "right", 5, 1)
+                }
+            }
+                , 1000)
+            setTimeout(function () {
+                if (countu == 1) {
+                    npcArrowKeys(1, "up", 5, 1)
+                }
+            }
+                , 2000)
+            setTimeout(function () {
+                if (countd == 1) {
+                    npcArrowKeys(1, "down", 5, 1)
+                }
+            }
+                , 3000)
+        }, 13400)
+        setTimeout(function () {
+            if (countl2 == 1) {
+                arrowKeys(1, "left", 5);
+            }
+            setTimeout(function () {
+                if (countr2 == 1) {
+                    arrowKeys(1, "right", 5);
+                }
+                setTimeout(function () {
+                    if (countu2 == 1) {
+                        arrowKeys(1, "up", 5);
+                    }
+                    setTimeout(function () {
+                        if (countd2 == 1) {
+                            arrowKeys(1, "down", 5);
+                        }
+                    }, 900)
+                }, 900)
+            }, 900)
+        }, 17200)
+        setTimeout(function () {
+            if (countr == 2) {
+                npcArrowKeys(1, "right", 5, 1)
+            }
+            setTimeout(function () {
+                if (countd == 2) {
+                    npcArrowKeys(1, "down", 5, 1)
+                }
+            }
+                , 1000)
+            setTimeout(function () {
+                if (countl == 2) {
+                    npcArrowKeys(1, "left", 5, 1)
+                }
+            }
+                , 2000)
+            setTimeout(function () {
+                if (countu == 2) {
+                    npcArrowKeys(1, "up", 5, 1)
+                }
+            }
+                , 3000)
+
+        }, 20500)
+        setTimeout(function () {
+            if (countr2 == 2) {
+                arrowKeys(1, "right", 5);
+            }
+            setTimeout(function () {
+                if (countd2 == 2) {
+                    arrowKeys(1, "down", 5);
+                }
+                setTimeout(function () {
+                    if (countl2 == 2) {
+                        arrowKeys(1, "left", 5);
+                    }
+                    setTimeout(function () {
+                        if (countu2 == 2) {
+                            arrowKeys(1, "up", 5);
+                        }
+                    }, 900)
+                }, 900)
+            }, 900)
+        }, 24500)
+        setTimeout(function () {
+            if (points >= 9 && countu2 == 3) {
+                currlevel = 2;
+                needed = 28;
+            }
+            else if (points < 9 && countu2 == 3) {
+                levelf.anchor.setTo(0.5)
+                levelf.x = Game.width / 2
+                setTimeout(function () {
+                    window.location.reload();
+                },
+                    1000)
+            }
+        }, 34000)
+
     }
 
     function Level2() {
         if (level2.x != Game.innerwidth) level2.x += 10
         cat2.y = -window.innerHeight;
         cat3.y = Game.height / 2 + 100;
-        if (someother == 1) {
+        if (currMusic == 1) {
             music1.stop(); music2.play();
-            someother = 2;
+            currMusic = 2;
         }
         setTimeout(function () {
-            if (right_a.y > 0 && countr == 3) { right_a.y -= 10; cat3.animations.play('stay3'); cat.animations.play('stay'); }
-            else if (countr < 4) {
-                countr++; right_a.y = window.innerHeight; if (cr == 3) { cat3.animations.play('right3'); cr++ }
+            if (countr == 3) {
+                npcArrowKeys(1, "right", 10, 2)
             }
             setTimeout(function () {
-                if (down_a.y > 0 && countd == 3) { down_a.y -= 10 }
-                else if (countd < 4) { countd++; down_a.y = window.innerHeight; if (cd == 3) { cat3.animations.play('down3'); cd++ } }
+                if (countd == 3) {
+                    npcArrowKeys(1, "down", 10, 2)
+                }
             }
                 , 650)
             setTimeout(function () {
-                if (up_a.y > 0 && countu == 3) { up_a.y -= 10 }
-                else if (countu < 4) { countu++; up_a.y = window.innerHeight; if (cu == 3) { cat3.animations.play('up3'); cu++ } }
+                if (countu == 3) {
+                    npcArrowKeys(1, "up", 10, 2)
+                }
             }
                 , 1050)
             setTimeout(function () {
-
-                if (up_aa.y > 0 && countuu == 0) { up_aa.y -= 10 }
-                else if (countuu < 1) { countuu++; up_aa.y = window.innerHeight; if (cuu == 0) { cat3.animations.play('up3'); cuu++ } }
+                if (countuu == 0) {
+                    npcArrowKeys(2, "up", 10, 2)
+                }
             }
                 , 1550)
             setTimeout(function () {
-                if (left_a.y > 0 && countl == 3) { left_a.y -= 10; }
-                else if (countl < 4) {
-                    countl++; left_a.y = window.innerHeight; if (cl == 3) { cat3.animations.play('left3'); cl++ }
+                if (countl == 3) {
+                    npcArrowKeys(1, "left", 10, 2)
                 }
             }
                 , 1950)
 
         }, 4110)
         setTimeout(function () {
-            if (countr2 == 3) right_a2.y -= 10
-            if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                if (cursors.right.isDown) {
-                    cat.animations.play('right')
-                    points++
-                    countr2++
-                    right_a2.y = window.innerHeight
-                }
-            }
-            else if (right_a2.y < -206 * 0.8 +80) {
-                countr2++
-                right_a2.y = window.innerHeight
+            if (countr2 == 3) {
+                arrowKeys(1, "right", 10)
             }
             setTimeout(function () {
-                if (countd2 == 3) down_a2.y -= 10
-                if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80) {
-                    if (cursors.down.isDown) {
-                        cat.animations.play('down')
-                        points++
-                        countd2++
-                        down_a2.y = window.innerHeight
-                    }
-                }
-                else if (down_a2.y < -206 * 0.8 +80) {
-                    countd2++
-                    down_a2.y = window.innerHeight
+                if (countd2 == 3) {
+                    arrowKeys(1, "down", 10)
                 }
                 setTimeout(function () {
-                    if (countu2 == 3) up_a2.y -= 10
-                    if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.up.isDown) {
-                            cat.animations.play('up')
-                            points++
-                            countu2++
-                            up_a2.y = window.innerHeight
-                        }
-                    }
-                    else if (up_a2.y < -206 * 0.8 +80) {
-                        countu2++
-                        up_a2.y = window.innerHeight
+                    if (countu2 == 3) {
+                        arrowKeys(1, "up", 10)
                     }
                     setTimeout(function () {
-                        if (countuu2 == 0) up_aa2.y -= 10
-                        if (up_aa2.y < 206 * 0.8 - 80 && up_aa2.y >= -206 * 0.8 +80) {
-                            if (cursors.up.isDown) {
-                                cat.animations.play('up')
-                                points++
-                                countuu2++
-                                up_aa2.y = window.innerHeight
-                            }
-                        }
-                        else if (up_aa2.y < -206 * 0.8 +80) {
-                            countuu2++
-                            up_aa2.y = window.innerHeight
+                        if (countuu2 == 0) {
+                            arrowKeys(2, "up", 10)
                         }
                         setTimeout(function () {
-                            if (countl2 == 3) left_a2.y -= 10
-                            if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                                if (cursors.left.isDown) {
-                                    cat.animations.play('left');
-                                    points++
-                                    countl2++
-                                    left_a2.y = window.innerHeight
-                                }
+                            if (countl2 == 3) {
+                                arrowKeys(1, "left", 10)
                             }
-                            else if (left_a2.y < -206 * 0.8 +80) {
-                                countl2++
-                                left_a2.y = window.innerHeight
-                            }
-
                         }, 400)
                     }, 500)
                 }, 500)
             }, 650)
         }, 6860)
         setTimeout(function () {
-            if (down_a.y > 0 && countd == 4) { down_a.y -= 10; cat3.animations.play('stay3'); }
-            else if (countd < 5) { countd++; down_a.y = window.innerHeight; if (cd == 4) { cat3.animations.play('down3'); cd++ } }
+            if (countd == 4) {
+                npcArrowKeys(1, "down", 10, 2)
+            }
 
             setTimeout(function () {
-                if (left_a.y > 0 && countl == 4) { left_a.y -= 10; }
-                else if (countl < 5) {
-                    countl++; left_a.y = window.innerHeight; if (cl == 4) { cat3.animations.play('left3'); cl++ }
+                if (countl == 4) {
+                    npcArrowKeys(1, "left", 10, 2)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (right_a.y > 0 && countr == 4) { right_a.y -= 10; }
-                else if (countr < 5) {
-                    countr++; right_a.y = window.innerHeight; if (cr == 4) { cat3.animations.play('right3'); cat.animations.play('stay'); cr++ }
+                if (countr == 4) {
+                    npcArrowKeys(1, "right", 10, 2)
                 }
             }
                 , 1050)
             setTimeout(function () {
 
-                if (right_aa.y > 0 && countrr == 0) { right_aa.y -= 10 }
-                else if (countrr < 1) { countrr++; right_aa.y = window.innerHeight; if (crr == 0) { cat3.animations.play('right3'); crr++ } }
+                if (countrr == 0) {
+                    npcArrowKeys(2, "right", 10, 2)
+                }
             }
                 , 1550)
             setTimeout(function () {
-                if (up_a.y > 0 && countu == 4) { up_a.y -= 10 }
-                else if (countu < 5) { countu++; up_a.y = window.innerHeight; if (cu == 4) { cat3.animations.play('up3'); cu++ } }
+                if (countu == 4) {
+                    npcArrowKeys(1, "up", 10, 2)
+                }
             }
                 , 1950)
 
         }, 9610)
         setTimeout(function () {
 
-            if (countd2 == 4) down_a2.y -= 10
-            if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80) {
-                if (cursors.down.isDown) {
-                    cat.animations.play('down')
-                    points++
-                    countd2++
-                    down_a2.y = window.innerHeight
-                }
+            if (countd2 == 4) {
+                arrowKeys(1, "down", 10)
             }
-            else if (down_a2.y < -206 * 0.8 +80) {
-                countd2++
-                down_a2.y = window.innerHeight
-            }
-
             setTimeout(function () {
-                if (countl2 == 4) left_a2.y -= 10
-                if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                    if (cursors.left.isDown) {
-                        cat.animations.play('left');
-                        points++
-                        countl2++
-                        left_a2.y = window.innerHeight
-                    }
-                }
-                else if (left_a2.y < -206 * 0.8 +80) {
-                    countl2++
-                    left_a2.y = window.innerHeight
+                if (countl2 == 4) {
+                    arrowKeys(1, "left", 10)
                 }
                 setTimeout(function () {
-                    if (countr2 == 4) right_a2.y -= 10
-                    if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.right.isDown) {
-                            cat.animations.play('right')
-                            points++
-                            countr2++
-                            right_a2.y = window.innerHeight
-                        }
-                    }
-                    else if (right_a2.y < -206 * 0.8 +80) {
-                        countr2++
-                        right_a2.y = window.innerHeight
+                    if (countr2 == 4) {
+                        arrowKeys(1, "right", 10)
                     }
 
                     setTimeout(function () {
-                        if (countrr2 == 0) right_aa2.y -= 10
-                        if (right_aa2.y < 206 * 0.8 - 80 && right_aa2.y >= -206 * 0.8 +80) {
-                            if (cursors.right.isDown) {
-                                cat.animations.play('right')
-                                points++
-                                countrr2++
-                                right_aa2.y = window.innerHeight
-                            }
-                        }
-                        else if (right_aa2.y < -206 * 0.8 +80) {
-                            countrr2++
-                            right_aa2.y = window.innerHeight
+                        if (countrr2 == 0) {
+                            arrowKeys(2, "right", 10)
                         }
                         setTimeout(function () {
-                            if (countu2 == 4) up_a2.y -= 10
-                            if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                                if (cursors.up.isDown) {
-                                    cat.animations.play('up')
-                                    points++
-                                    countu2++
-                                    up_a2.y = window.innerHeight
-                                }
+                            if (countu2 == 4) {
+                                arrowKeys(1, "up", 10)
                             }
-                            else if (up_a2.y < -206 * 0.8 +80) {
-                                countu2++
-                                up_a2.y = window.innerHeight
-                            }
-
                         }, 400)
                     }, 500)
                 }, 500)
             }, 650)
         }, 11860)
         setTimeout(function () {
-            if (up_a.y > 0 && countu == 5) { up_a.y -= 10; cat3.animations.play('stay3'); }
-            else if (countu < 6) { countu++; up_a.y = window.innerHeight; if (cu == 5) { cat3.animations.play('up3'); cu++ } }
-
-
+            if (countu == 5) {
+                npcArrowKeys(1, "up", 10, 2)
+            }
             setTimeout(function () {
-                if (right_a.y > 0 && countr == 5) { right_a.y -= 10; }
-                else if (countr < 6) {
-                    countr++; right_a.y = window.innerHeight; if (cr == 5) { cat3.animations.play('right3'); cat.animations.play('stay'); cr++ }
+                if (countr == 5) {
+                    npcArrowKeys(1, "right", 10, 2)
                 }
-
             }
                 , 650)
             setTimeout(function () {
-                if (down_a.y > 0 && countd == 5) { down_a.y -= 10; }
-                else if (countd < 6) { countd++; down_a.y = window.innerHeight; if (cd == 5) { cat3.animations.play('down3'); cd++ } }
-
-            }
+                if (countd == 5) {
+                    npcArrowKeys(1, "down", 10, 2)
+                }            }
                 , 1050)
             setTimeout(function () {
-
-                if (down_aa.y > 0 && countdd == 0) { down_aa.y -= 10 }
-                else if (countdd < 1) { countdd++; down_aa.y = window.innerHeight; if (cdd == 0) { cat3.animations.play('down3'); cdd++ } }
+                if (countdd == 0) {
+                    npcArrowKeys(2, "down", 10, 2)
+                }
             }
                 , 1550)
             setTimeout(function () {
-                if (left_a.y > 0 && countl == 5) { left_a.y -= 10; }
-                else if (countl < 6) {
-                    countl++; left_a.y = window.innerHeight; if (cl == 5) { cat3.animations.play('left3'); cl++ }
+                if (countl == 5) {
+                    npcArrowKeys(1, "left", 10, 2)
                 }
             }
                 , 1950)
 
         }, 14610)
         setTimeout(function () {
-            if (countu2 == 5) up_a2.y -= 10
-            if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                if (cursors.up.isDown) {
-                    cat.animations.play('up')
-                    points++
-                    countu2++
-                    up_a2.y = window.innerHeight
-                }
+            if (countu2 == 5) {
+                arrowKeys(1, "up", 10)
             }
-            else if (up_a2.y < -206 * 0.8 +80) {
-                countu2++
-                up_a2.y = window.innerHeight
-            }
-
-
             setTimeout(function () {
-                if (countr2 == 5) right_a2.y -= 10
-                if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                    if (cursors.right.isDown) {
-                        cat.animations.play('right')
-                        points++
-                        countr2++
-                        right_a2.y = window.innerHeight
-                    }
+                if (countr2 == 5) {
+                    arrowKeys(1, "right", 10)
                 }
-                else if (right_a2.y < -206 * 0.8 +80) {
-                    countr2++
-                    right_a2.y = window.innerHeight
-                }
-
                 setTimeout(function () {
-                    if (countd2 == 5) down_a2.y -= 10
-                    if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.down.isDown) {
-                            cat.animations.play('down')
-                            points++
-                            countd2++
-                            down_a2.y = window.innerHeight
-                        }
+                    if (countd2 == 5) {
+                        arrowKeys(1, "down", 10)
                     }
-                    else if (down_a2.y < -206 * 0.8 +80) {
-                        countd2++
-                        down_a2.y = window.innerHeight
-                    }
-
-
                     setTimeout(function () {
-                        if (countdd2 == 0) down_aa2.y -= 10
-                        if (down_aa2.y < 206 * 0.8 - 80 && down_aa2.y >= -206 * 0.8 +80) {
-                            if (cursors.down.isDown) {
-                                cat.animations.play('down')
-                                points++
-                                countdd2++
-                                down_aa2.y = window.innerHeight
-                            }
-                        }
-                        else if (down_aa2.y < -206 * 0.8 +80) {
-                            countdd2++
-                            down_aa2.y = window.innerHeight
+                        if (countdd2 == 0) {
+                            arrowKeys(2, "down", 10)
                         }
                         setTimeout(function () {
-                            if (countl2 == 5) left_a2.y -= 10
-                            if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                                if (cursors.left.isDown) {
-                                    cat.animations.play('left');
-                                    points++
-                                    countl2++
-                                    left_a2.y = window.innerHeight
-                                }
+                            if (countl2 == 5) {
+                                arrowKeys(1, "left", 10)
                             }
-                            else if (left_a2.y < -206 * 0.8 +80) {
-                                countl2++
-                                left_a2.y = window.innerHeight
-                            }
-
                         }, 400)
                     }, 500)
                 }, 500)
             }, 650)
         }, 17060)
         setTimeout(function () {
-            if (left_a.y > 0 && countl == 6) { left_a.y -= 10; }
-            else if (countl < 7) {
-                countl++; left_a.y = window.innerHeight; if (cl == 6) { cat3.animations.play('left3'); cl++ }
+            if (countl == 6) {
+                npcArrowKeys(1, "left", 10, 2)
             }
             setTimeout(function () {
-                if (up_a.y > 0 && countu == 6) { up_a.y -= 10; cat3.animations.play('stay3'); }
-                else if (countu < 7) { countu++; up_a.y = window.innerHeight; if (cu == 6) { cat3.animations.play('up3'); cu++ } }
+                if (countu == 6) {
+                    npcArrowKeys(1, "up", 10, 2) 
+                }
             }
                 , 650)
             setTimeout(function () {
-                if (down_a.y > 0 && countd == 6) { down_a.y -= 10; }
-                else if (countd < 7) { countd++; down_a.y = window.innerHeight; if (cd == 6) { cat3.animations.play('down3'); cd++ } }
-
+                if (countd == 6) {
+                    npcArrowKeys(1, "down", 10, 2)
+                }
             }
                 , 1050)
             setTimeout(function () {
 
-                if (down_aa.y > 0 && countdd == 1) { down_aa.y -= 10 }
-                else if (countdd < 2) { countdd++; down_aa.y = window.innerHeight; if (cdd == 1) { cat3.animations.play('down3'); cdd++ } }
+                if (countdd == 1) { 
+                    npcArrowKeys(2, "down", 10, 2) 
+                }
             }
                 , 1550)
             setTimeout(function () {
-                if (right_a.y > 0 && countr == 6) { right_a.y -= 10; }
-                else if (countr < 7) {
-                    countr++; right_a.y = window.innerHeight; if (cr == 6) { cat3.animations.play('right3'); cat.animations.play('stay'); cr++ }
+                if (countr == 6) { 
+                    npcArrowKeys(1, "right", 10, 2)
                 }
             }
                 , 1950)
 
         }, 19610)
         setTimeout(function () {
-            if (countl2 == 6) left_a2.y -= 10
-            if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                if (cursors.left.isDown) {
-                    cat.animations.play('left');
-                    points++
-                    countl2++
-                    left_a2.y = window.innerHeight
-                }
-            }
-            else if (left_a2.y < -206 * 0.8 +80) {
-                countl2++
-                left_a2.y = window.innerHeight
+            if (countl2 == 6) {
+                arrowKeys(1, "left", 10)
             }
 
             setTimeout(function () {
-                if (countll2 == 0) left_aa2.y -= 10
-                if (left_aa2.y < 206 * 0.8 - 80 && left_aa2.y >= -206 * 0.8 +80) {
-                    if (cursors.left.isDown) {
-                        cat.animations.play('left')
-                        points++
-                        countll2++
-                        left_aa2.y = window.innerHeight
-                    }
-                }
-                else if (left_aa2.y < -206 * 0.8 +80) {
-                    countll2++
-                    left_aa2.y = window.innerHeight
+                if (countll2 == 0) {
+                    arrowKeys(2, "left", 10)
                 }
                 setTimeout(function () {
-                    if (countu2 == 6) up_a2.y -= 10
-                    if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                        if (cursors.up.isDown) {
-                            cat.animations.play('up')
-                            points++
-                            countu2++
-                            up_a2.y = window.innerHeight
-                        }
+                    if (countu2 == 6) {
+                        arrowKeys(1, "up", 10)
+
                     }
-                    else if (up_a2.y < -206 * 0.8 +80) {
-                        countu2++
-                        up_a2.y = window.innerHeight
-                    }
-
-
-
                     setTimeout(function () {
-                        if (countd2 == 6) down_a2.y -= 10
-                        if (down_a2.y < 206 * 0.8 - 80 && down_a2.y >= -206 * 0.8 +80) {
-                            if (cursors.down.isDown) {
-                                cat.animations.play('down')
-                                points++
-                                countd2++
-                                down_a2.y = window.innerHeight
-                            }
+                        if (countd2 == 6) {
+                            arrowKeys(1, "down", 10)
                         }
-                        else if (down_a2.y < -206 * 0.8 +80) {
-                            countd2++
-                            down_a2.y = window.innerHeight
-                        }
-
-
                         setTimeout(function () {
-                            if (countdd2 == 1) down_aa2.y -= 10
-                            if (down_aa2.y < 206 * 0.8 - 80 && down_aa2.y >= -206 * 0.8 +80) {
-                                if (cursors.down.isDown) {
-                                    cat.animations.play('down')
-                                    points++
-                                    countdd2++
-                                    down_aa2.y = window.innerHeight
-                                }
-                            }
-                            else if (down_aa2.y < -206 * 0.8 +80) {
-                                countdd2++
-                                down_aa2.y = window.innerHeight
+                            if (countdd2 == 1) {
+                                arrowKeys(2, "down", 10)
                             }
                             setTimeout(function () {
-                                if (countr2 == 6) right_a2.y -= 10
-                                if (right_a2.y < 206 * 0.8 - 80 && right_a2.y >= -206 * 0.8 +80) {
-                                    if (cursors.right.isDown) {
-                                        cat.animations.play('right')
-                                        points++
-                                        countr2++
-                                        right_a2.y = window.innerHeight
-                                    }
-                                }
-                                else if (right_a2.y < -206 * 0.8 +80) {
-                                    countr2++
-                                    right_a2.y = window.innerHeight
+                                if (countr2 == 6) {
+                                    arrowKeys(1, "right", 10)
                                 }
                                 setTimeout(function () {
-                                    if (countu2 == 7) up_a2.y -= 10
-                                    if (up_a2.y < 206 * 0.8 - 80 && up_a2.y >= -206 * 0.8 +80) {
-                                        if (cursors.up.isDown) {
-                                            cat.animations.play('up')
-                                            points++
-                                            countu2++
-                                            up_a2.y = window.innerHeight
-                                        }
-                                    }
-                                    else if (up_a2.y < -206 * 0.8 +80) {
-                                        countu2++
-                                        up_a2.y = window.innerHeight
+                                    if (countu2 == 7) {
+                                        arrowKeys(1, "up", 10)
                                     }
                                     setTimeout(function () {
-                                        if (countl2 == 7) left_a2.y -= 10
-                                        if (left_a2.y < 206 * 0.8 - 80 && left_a2.y >= -206 * 0.8 +80) {
-                                            if (cursors.left.isDown) {
-                                                cat.animations.play('left');
-                                                points++
-                                                countl2++
-                                                left_a2.y = window.innerHeight
-                                            }
+                                        if (countl2 == 7) {
+                                            arrowKeys(1, "left", 10)
                                         }
-                                        else if (left_a2.y < -206 * 0.8 +80) {
-                                            countl2++
-                                            left_a2.y = window.innerHeight
-                                        }
-
                                     }, 300)
                                 }, 300)
                             }, 100)
@@ -970,41 +836,58 @@ function update() {
         if (level3.x != Game.innerwidth) level3.x += 10
         cat3.y = -window.innerHeight;
         cat4.y = Game.height / 2 + 100;
-        if (someother == 2) {
+        if (currMusic == 2) {
             music2.stop(); music3.play();
-            someother = 3;
-
+            currMusic = 3;
         }
 
         setTimeout(function () {
-            if (a == 1) clicks.x = Game.width / 2;
+            if (!isRulesShown) {
+                clicks.x = Game.width / 2;
+                isRulesShown=true;
+            }
             setTimeout(function () {
-                if (a == 1) { clicks.x = -1000; a++ }
-                if (a == 2) go.x = Game.width / 2;
+                if (isRulesShown) { clicks.x = -1000;}
+                go.x = Game.width / 2;
             }, 4000)
         }, 5000)
         setTimeout(function () {
-            if (someother == 3) {
-                if (a == 2) { go.x = -1000; a++ }
-                if (cursors.up.isDown && countu2 < countd2 + 1 && countu2 < countl2 + 1 && countu2 < countr2 + 1) {
+            if (currMusic == 3) {
+                if (cursors.up.isDown && 
+                    countu2 < countd2 + 1 && 
+                    countu2 < countl2 + 1 && 
+                    countu2 < countr2 + 1) {
+                    go.y = -1000;
                     cat.animations.play('up', 30)
                     cat4.animations.play('up4', 30)
                     countu2++
                     points++
                 }
-                else if (cursors.down.isDown && countd2 < countu2 + 1 && countd2 < countl2 + 1 && countd2 < countr2 + 1) {
+                else if (cursors.down.isDown && 
+                    countd2 < countu2 + 1 && 
+                    countd2 < countl2 + 1 && 
+                    countd2 < countr2 + 1) {
+                    go.y = -1000;
                     cat.animations.play('down', 30)
                     cat4.animations.play('down4', 30)
                     countd2++
                     points++
                 }
-                else if (cursors.right.isDown && countr2 < countl2 + 1 && countr2 < countd2 + 1 && countr2 < countu2 + 1) {
+                else if (cursors.right.isDown && 
+                    countr2 < countl2 + 1 &&
+                    countr2 < countd2 + 1 &&
+                    countr2 < countu2 + 1) {
+                    go.y = -1000;
                     cat.animations.play('right', 30)
                     cat4.animations.play('right4', 30)
                     countr2++
                     points++
                 }
-                else if (cursors.left.isDown && countl2 < countr2 + 1 && countl2 < countd2 + 1 && countl2 < countu2 + 1) {
+                else if (cursors.left.isDown && 
+                    countl2 < countr2 + 1 && 
+                    countl2 < countd2 + 1 && 
+                    countl2 < countu2 + 1) {
+                    go.y = -1000;
                     cat.animations.play('left', 30)
                     cat4.animations.play('left4', 30)
                     countl2++
@@ -1014,14 +897,16 @@ function update() {
         }, 10000)
         setTimeout(function () {
             if (points >= 100) {
-                someother++
-                if (a == 3) win.x = Game.width / 2;
-                if (someother == 4) {
-                    cat4.animations.play('stay',true)
-                    cat.animations.play('up', true)
+                
+                currMusic++                
+                if (currMusic == 4) {
+                    win.x = Game.width / 2;
+                    currMusic++
                 }
                 setTimeout(function () {
-                    if (a == 3) { win.x = -1000; a++ }
+                    if (currMusic == 5) { 
+                        win.y = -1000; 
+                        currMusic++}
                     credits.y = Game.height / 2
                 }, 3000)
             }
