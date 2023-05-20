@@ -194,11 +194,11 @@ function create() {
 function update() {
     this.pointsText.text = "Points: " + points + "/" + needed + " to pass.";
     radio.animations.play('dance');
-    if (currMusic == 0) { music1.play(); currMusic = 1; }
+    if (currMusic === 0) { music1.play(); currMusic = 1; }
 
-    if (currlevel == 1) Level1();
-    else if (currlevel == 2) Level2();
-    else if (currlevel == 3) Level3();
+    if (currlevel === 1) Level1();
+    else if (currlevel === 2) Level2();
+    else if (currlevel === 3) Level3();
 
     function arrowKeys(numberOfArrow, direction, speed) {
         const consumeArrow = (arrow, catIndex, counterName) => {
@@ -218,31 +218,31 @@ function update() {
                 arrow.y = window.innerHeight
             }
         }
-        if (numberOfArrow == 1) {
-            if (direction == "up") {
+        if (numberOfArrow === 1) {
+            if (direction === "up") {
                 consumeArrow(up_a2, 1, "countu2");
             }
-            else if (direction == "down") {
+            else if (direction === "down") {
                 consumeArrow(down_a2, 1, "countd2");
             }
-            else if (direction == "right") {
+            else if (direction === "right") {
                 consumeArrow(right_a2, 1, "countr2");
             }
-            else if (direction == "left") {
+            else if (direction === "left") {
                 consumeArrow(left_a2, 1, "countl2");
             }
         }
-        else if (numberOfArrow == 2) {
-            if (direction == "up") {
+        else if (numberOfArrow === 2) {
+            if (direction === "up") {
                 consumeArrow(up_aa2, 1, "countuu2");
             }
-            else if (direction == "down") {
+            else if (direction === "down") {
                 consumeArrow(down_aa2, 1, "countdd2");
             }
-            else if (direction == "right") {
+            else if (direction === "right") {
                 consumeArrow(right_aa2, 1, "countrr2");
             }
-            else if (direction == "left") {
+            else if (direction === "left") {
                 consumeArrow(left_aa2, 1, "countll2");
             }
         }
@@ -257,35 +257,35 @@ function update() {
                 const animationName = `${direction}${whichCat}`
                 counters[counterName]++;
                 arrow.y = window.innerHeight;
-                if (whichCat == 2) cat2.animations.play(animationName);
-                else if (whichCat == 3) cat3.animations.play(animationName);
+                if (whichCat === 2) cat2.animations.play(animationName);
+                else if (whichCat === 3) cat3.animations.play(animationName);
             }
         }
-        if (numberofArrow == 1) {
-            if (direction == "up") {
+        if (numberofArrow === 1) {
+            if (direction === "up") {
                 npcConsumeArrow(up_a, "countu")
             }
-            else if (direction == "down") {
+            else if (direction === "down") {
                 npcConsumeArrow(down_a, "countd")
             }
-            else if (direction == "right") {
+            else if (direction === "right") {
                 npcConsumeArrow(right_a, "countr")
             }
-            else if (direction == "left") {
+            else if (direction === "left") {
                 npcConsumeArrow(left_a, "countl")
             }
         }
-        if (numberofArrow == 2) {
-            if (direction == "up") {
+        if (numberofArrow === 2) {
+            if (direction === "up") {
                 npcConsumeArrow(up_aa, "countuu")
             }
-            else if (direction == "down") {
+            else if (direction === "down") {
                 npcConsumeArrow(down_aa, "countdd")
             }
-            else if (direction == "right") {
+            else if (direction === "right") {
                 npcConsumeArrow(right_aa, "countrr")
             }
-            else if (direction == "left") {
+            else if (direction === "left") {
                 npcConsumeArrow(left_aa, "countll")
             }
         }
@@ -294,84 +294,84 @@ function update() {
     function Level1() {
         if (level1.x != Game.innerwidth) level1.x += 10
         setTimeout(function () {
-            if (counters["countu"] == 0) {
+            if (counters["countu"] === 0) {
                 npcArrowKeys(1, "up", 5, 2)
             }
         }, 6100)
         setTimeout(function () {
-            if (counters["countd"] == 0) {
+            if (counters["countd"] === 0) {
                 npcArrowKeys(1, "down", 5, 2)
             }
         }
             , 7100)
         setTimeout(function () {
-            if (counters["countu2"] == 0) {
+            if (counters["countu2"] === 0) {
                 arrowKeys(1, "up", 5);
             }
             setTimeout(function () {
-                if (counters["countd2"] == 0) {
+                if (counters["countd2"] === 0) {
                     arrowKeys(1, "down", 5);
                 }
             }, 1000)
         }, 8000)
         setTimeout(function () {
-            if (counters["countl"] == 0) {
+            if (counters["countl"] === 0) {
                 npcArrowKeys(1, "left", 5, 2)
             }
             setTimeout(function () {
-                if (counters["countr"] == 0) {
+                if (counters["countr"] === 0) {
                     npcArrowKeys(1, "right", 5, 2)
                 }
             }
                 , 800)
         }, 9800)
         setTimeout(function () {
-            if (counters["countl2"] == 0) {
+            if (counters["countl2"] === 0) {
                 arrowKeys(1, "left", 5);
             }
             setTimeout(function () {
-                if (counters["countr2"] == 0) {
+                if (counters["countr2"] === 0) {
                     arrowKeys(1, "right", 5);
                 }
             }, 900)
         }, 11800)
         setTimeout(function () {
-            if (counters["countl"] == 1) {
+            if (counters["countl"] === 1) {
                 npcArrowKeys(1, "left", 5, 2)
             }
             setTimeout(function () {
-                if (counters["countr"] == 1) {
+                if (counters["countr"] === 1) {
                     npcArrowKeys(1, "right", 5, 2)
                 }
             }
                 , 1000)
             setTimeout(function () {
-                if (counters["countu"] == 1) {
+                if (counters["countu"] === 1) {
                     npcArrowKeys(1, "up", 5, 2)
                 }
             }
                 , 2000)
             setTimeout(function () {
-                if (counters["countd"] == 1) {
+                if (counters["countd"] === 1) {
                     npcArrowKeys(1, "down", 5, 2)
                 }
             }
                 , 3000)
         }, 13400)
         setTimeout(function () {
-            if (counters["countl2"] == 1) {
+            if (counters["countl2"] === 1) {
                 arrowKeys(1, "left", 5);
             }
             setTimeout(function () {
-                if (counters["countr2"] == 1) {
+                if (counters["countr2"] === 1) {
                     arrowKeys(1, "right", 5);
                 }
                 setTimeout(function () {
-                    if (counters["countu2"] == 1) {
+                    if (counters["countu2"] === 1) {
                         arrowKeys(1, "up", 5);
                     }
                     setTimeout(function () {
-                        if (counters["countd2"] == 1) {
+                        if (counters["countd2"] === 1) {
                             arrowKeys(1, "down", 5);
                         }
                     }, 900)
@@ -379,23 +379,23 @@ function update() {
             }, 900)
         }, 17200)
         setTimeout(function () {
-            if (counters["countr"] == 2) {
+            if (counters["countr"] === 2) {
                 npcArrowKeys(1, "right", 5, 2)
             }
             setTimeout(function () {
-                if (counters["countd"] == 2) {
+                if (counters["countd"] === 2) {
                     npcArrowKeys(1, "down", 5, 2)
                 }
             }
                 , 1000)
             setTimeout(function () {
-                if (counters["countl"] == 2) {
+                if (counters["countl"] === 2) {
                     npcArrowKeys(1, "left", 5, 2)
                 }
             }
                 , 2000)
             setTimeout(function () {
-                if (counters["countu"] == 2) {
+                if (counters["countu"] === 2) {
                     npcArrowKeys(1, "up", 5, 2)
                 }
             }
@@ -403,19 +403,19 @@ function update() {
 
         }, 20500)
         setTimeout(function () {
-            if (counters["countr2"] == 2) {
+            if (counters["countr2"] === 2) {
                 arrowKeys(1, "right", 5);
             }
             setTimeout(function () {
-                if (counters["countd2"] == 2) {
+                if (counters["countd2"] === 2) {
                     arrowKeys(1, "down", 5);
                 }
                 setTimeout(function () {
-                    if (counters["countl2"] == 2) {
+                    if (counters["countl2"] === 2) {
                         arrowKeys(1, "left", 5);
                     }
                     setTimeout(function () {
-                        if (counters["countu2"] == 2) {
+                        if (counters["countu2"] === 2) {
                             arrowKeys(1, "up", 5);
                         }
                     }, 900)
@@ -423,11 +423,11 @@ function update() {
             }, 900)
         }, 24500)
         setTimeout(function () {
-            if (points >= 9 && counters["countu2"] == 3) {
+            if (points >= 9 && counters["countu2"] === 3) {
                 currlevel = 2;
                 needed = 28;
             }
-            else if (points < 9 && counters["countu2"] == 3) {
+            else if (points < 9 && counters["countu2"] === 3) {
                 levelf.anchor.setTo(0.5)
                 levelf.x = Game.width / 2
                 setTimeout(function () {
@@ -443,34 +443,34 @@ function update() {
         if (level2.x != Game.innerwidth) level2.x += 10
         cat2.y = -window.innerHeight;
         cat3.y = Game.height / 2 + 100;
-        if (currMusic == 1) {
+        if (currMusic === 1) {
             music1.stop(); music2.play();
             currMusic = 2;
         }
         setTimeout(function () {
-            if (counters["countr"] == 3) {
+            if (counters["countr"] === 3) {
                 npcArrowKeys(1, "right", 10, 3)
             }
             setTimeout(function () {
-                if (counters["countd"] == 3) {
+                if (counters["countd"] === 3) {
                     npcArrowKeys(1, "down", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (counters["countu"] == 3) {
+                if (counters["countu"] === 3) {
                     npcArrowKeys(1, "up", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
-                if (counters["countuu"] == 0) {
+                if (counters["countuu"] === 0) {
                     npcArrowKeys(2, "up", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (counters["countl"] == 3) {
+                if (counters["countl"] === 3) {
                     npcArrowKeys(1, "left", 10, 3)
                 }
             }
@@ -478,23 +478,23 @@ function update() {
 
         }, 4110)
         setTimeout(function () {
-            if (counters["countr2"] == 3) {
+            if (counters["countr2"] === 3) {
                 arrowKeys(1, "right", 10)
             }
             setTimeout(function () {
-                if (counters["countd2"] == 3) {
+                if (counters["countd2"] === 3) {
                     arrowKeys(1, "down", 10)
                 }
                 setTimeout(function () {
-                    if (counters["countu2"] == 3) {
+                    if (counters["countu2"] === 3) {
                         arrowKeys(1, "up", 10)
                     }
                     setTimeout(function () {
-                        if (counters["countuu2"] == 0) {
+                        if (counters["countuu2"] === 0) {
                             arrowKeys(2, "up", 10)
                         }
                         setTimeout(function () {
-                            if (counters["countl2"] == 3) {
+                            if (counters["countl2"] === 3) {
                                 arrowKeys(1, "left", 10)
                             }
                         }, 400)
@@ -503,31 +503,31 @@ function update() {
             }, 650)
         }, 6860)
         setTimeout(function () {
-            if (counters["countd"] == 4) {
+            if (counters["countd"] === 4) {
                 npcArrowKeys(1, "down", 10, 3)
             }
 
             setTimeout(function () {
-                if (counters["countl"] == 4) {
+                if (counters["countl"] === 4) {
                     npcArrowKeys(1, "left", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (counters["countr"] == 4) {
+                if (counters["countr"] === 4) {
                     npcArrowKeys(1, "right", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
 
-                if (counters["countrr"] == 0) {
+                if (counters["countrr"] === 0) {
                     npcArrowKeys(2, "right", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (counters["countu"] == 4) {
+                if (counters["countu"] === 4) {
                     npcArrowKeys(1, "up", 10, 3)
                 }
             }
@@ -536,24 +536,24 @@ function update() {
         }, 9610)
         setTimeout(function () {
 
-            if (counters["countd2"] == 4) {
+            if (counters["countd2"] === 4) {
                 arrowKeys(1, "down", 10)
             }
             setTimeout(function () {
-                if (counters["countl2"] == 4) {
+                if (counters["countl2"] === 4) {
                     arrowKeys(1, "left", 10)
                 }
                 setTimeout(function () {
-                    if (counters["countr2"] == 4) {
+                    if (counters["countr2"] === 4) {
                         arrowKeys(1, "right", 10)
                     }
 
                     setTimeout(function () {
-                        if (counters["countrr2"] == 0) {
+                        if (counters["countrr2"] === 0) {
                             arrowKeys(2, "right", 10)
                         }
                         setTimeout(function () {
-                            if (counters["countu2"] == 4) {
+                            if (counters["countu2"] === 4) {
                                 arrowKeys(1, "up", 10)
                             }
                         }, 400)
@@ -562,29 +562,29 @@ function update() {
             }, 650)
         }, 11860)
         setTimeout(function () {
-            if (counters["countu"] == 5) {
+            if (counters["countu"] === 5) {
                 npcArrowKeys(1, "up", 10, 3)
             }
             setTimeout(function () {
-                if (counters["countr"] == 5) {
+                if (counters["countr"] === 5) {
                     npcArrowKeys(1, "right", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (counters["countd"] == 5) {
+                if (counters["countd"] === 5) {
                     npcArrowKeys(1, "down", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
-                if (counters["countdd"] == 0) {
+                if (counters["countdd"] === 0) {
                     npcArrowKeys(2, "down", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (counters["countl"] == 5) {
+                if (counters["countl"] === 5) {
                     npcArrowKeys(1, "left", 10, 3)
                 }
             }
@@ -592,23 +592,23 @@ function update() {
 
         }, 14610)
         setTimeout(function () {
-            if (counters["countu2"] == 5) {
+            if (counters["countu2"] === 5) {
                 arrowKeys(1, "up", 10)
             }
             setTimeout(function () {
-                if (counters["countr2"] == 5) {
+                if (counters["countr2"] === 5) {
                     arrowKeys(1, "right", 10)
                 }
                 setTimeout(function () {
-                    if (counters["countd2"] == 5) {
+                    if (counters["countd2"] === 5) {
                         arrowKeys(1, "down", 10)
                     }
                     setTimeout(function () {
-                        if (counters["countdd2"] == 0) {
+                        if (counters["countdd2"] === 0) {
                             arrowKeys(2, "down", 10)
                         }
                         setTimeout(function () {
-                            if (counters["countl2"] == 5) {
+                            if (counters["countl2"] === 5) {
                                 arrowKeys(1, "left", 10)
                             }
                         }, 400)
@@ -617,30 +617,30 @@ function update() {
             }, 650)
         }, 17060)
         setTimeout(function () {
-            if (counters["countl"] == 6) {
+            if (counters["countl"] === 6) {
                 npcArrowKeys(1, "left", 10, 3)
             }
             setTimeout(function () {
-                if (counters["countu"] == 6) {
+                if (counters["countu"] === 6) {
                     npcArrowKeys(1, "up", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (counters["countd"] == 6) {
+                if (counters["countd"] === 6) {
                     npcArrowKeys(1, "down", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
 
-                if (counters["countdd"] == 1) {
+                if (counters["countdd"] === 1) {
                     npcArrowKeys(2, "down", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (counters["countr"] == 6) {
+                if (counters["countr"] === 6) {
                     npcArrowKeys(1, "right", 10, 3)
                 }
             }
@@ -648,36 +648,36 @@ function update() {
 
         }, 19610)
         setTimeout(function () {
-            if (counters["countl2"] == 6) {
+            if (counters["countl2"] === 6) {
                 arrowKeys(1, "left", 10)
             }
 
             setTimeout(function () {
-                if (counters["countll2"] == 0) {
+                if (counters["countll2"] === 0) {
                     arrowKeys(2, "left", 10)
                 }
                 setTimeout(function () {
-                    if (counters["countu2"] == 6) {
+                    if (counters["countu2"] === 6) {
                         arrowKeys(1, "up", 10)
                     }
                     setTimeout(function () {
-                        if (counters["countd2"] == 6) {
+                        if (counters["countd2"] === 6) {
                             arrowKeys(1, "down", 10)
                         }
                         setTimeout(function () {
-                            if (counters["countdd2"] == 1) {
+                            if (counters["countdd2"] === 1) {
                                 arrowKeys(2, "down", 10)
                             }
                             setTimeout(function () {
-                                if (counters["countr2"] == 6) {
+                                if (counters["countr2"] === 6) {
                                     arrowKeys(1, "right", 10)
                                 }
                                 setTimeout(function () {
-                                    if (counters["countu2"] == 7) {
+                                    if (counters["countu2"] === 7) {
                                         arrowKeys(1, "up", 10)
                                     }
                                     setTimeout(function () {
-                                        if (counters["countl2"] == 7) {
+                                        if (counters["countl2"] === 7) {
                                             arrowKeys(1, "left", 10)
                                         }
                                     }, 300)
@@ -689,10 +689,10 @@ function update() {
             }, 600)
         }, 21960)
         setTimeout(function () {
-            if (points >= 28 && counters["countl2"] == 8) {
+            if (points >= 28 && counters["countl2"] === 8) {
                 setTimeout(function () { currlevel = 3; needed = 100 }, 1000)
             }
-            else if (points < 28 && counters["countl2"] == 8) {
+            else if (points < 28 && counters["countl2"] === 8) {
                 levelf.anchor.setTo(0.5)
                 levelf.x = Game.width / 2
                 setTimeout(function () {
@@ -706,7 +706,7 @@ function update() {
         if (level3.x != Game.innerwidth) level3.x += 10
         cat3.y = -window.innerHeight;
         cat4.y = Game.height / 2 + 100;
-        if (currMusic == 2) {
+        if (currMusic === 2) {
             music2.stop(); music3.play();
             currMusic = 3;
         }
@@ -722,7 +722,7 @@ function update() {
             }, 4000)
         }, 5000)
         setTimeout(function () {
-            if (currMusic == 3) {
+            if (currMusic === 3) {
                 if (cursors.up.isDown &&
                     counters["countu2"] < counters["countd2"] + 1 &&
                     counters["countu2"] < counters["countr2"] + 1 &&
@@ -769,12 +769,12 @@ function update() {
             if (points >= 100) {
 
                 currMusic++
-                if (currMusic == 4) {
+                if (currMusic === 4) {
                     win.x = Game.width / 2;
                     currMusic++
                 }
                 setTimeout(function () {
-                    if (currMusic == 5) {
+                    if (currMusic === 5) {
                         win.y = -1000;
                         currMusic++
                     }
