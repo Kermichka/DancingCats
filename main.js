@@ -736,7 +736,7 @@ function update() {
                 else if (cursors.down.isDown &&
                     counters["countd2"] < counters["countu2"] + 1 &&
                     counters["countd2"] < counters["countl2"] + 1 &&
-                    counters["countd2"] < counters["countl2"] + 1) {
+                    counters["countd2"] < counters["countr2"] + 1) {
                     go.y = -1000;
                     cat.animations.play('down1', 30)
                     cat4.animations.play('down4', 30)
