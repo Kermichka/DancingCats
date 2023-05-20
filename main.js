@@ -14,10 +14,13 @@ let points = 0
 let isRulesShown = false;
 let radio, level1, level2, level3, levelf, currlevel = 1, win, credits
 let hitboxEnter = 206 * 0.8 - 80, hitboxExit = -206 * 0.8 + 80
-let countu = 0, countd = 0, countl = 0, countr = 0, currMusic = 0;
-let countl2 = 0, countr2 = 0, countu2 = 0, countd2 = 0;
-let countuu = 0, countdd = 0, countll = 0, countrr = 0
-let countll2 = 0, countrr2 = 0, countuu2 = 0, countdd2 = 0;
+let currMusic = 0;
+const counters = {
+    countu: 0, countd: 0, countl: 0, countr: 0,
+    countuu: 0, countdd: 0, countll: 0, countrr: 0,
+    countu2: 0, countd2: 0, countl2: 0, countr2: 0,
+    countuu2: 0, countdd2: 0, countll2: 0, countrr2: 0
+}
 let needed = 9, clicks, go
 function preload() {
     Game.load.spritesheet('cat', 'pictures/cat-spritesheets/cat.png', (383 * 3) / 3, (383 * 6) / 6)
@@ -89,11 +92,11 @@ function create() {
     cat.scale.setTo(1.2)
     cat.anchor.setTo(0.5)
 
-    cat.animations.add('stay', [0, 1, 2, 1], 5, true).play()
-    cat.animations.add('left', [9, 10, 9, 10], 5, false).play()
-    cat.animations.add('down', [6, 7, 8, 8, 7, 6], 9, false).play()
-    cat.animations.add('up', [3, 4, 5, 5, 4, 3], 9, false).play()
-    cat.animations.add('right', [12, 13, 12, 14, 14], 5, false).play()
+    cat.animations.add('stay1', [0, 1, 2, 1], 5, true).play()
+    cat.animations.add('left1', [9, 10, 9, 10], 5, false).play()
+    cat.animations.add('down1', [6, 7, 8, 8, 7, 6], 9, false).play()
+    cat.animations.add('up1', [3, 4, 5, 5, 4, 3], 9, false).play()
+    cat.animations.add('right1', [12, 13, 12, 14, 14], 5, false).play()
 
     cat2 = Game.add.sprite(Game.width / 2 - 250, Game.height / 2 + 100, 'cat2')
     cat2.scale.setTo(1.2)
@@ -196,312 +199,179 @@ function update() {
     if (currlevel == 1) Level1();
     else if (currlevel == 2) Level2();
     else if (currlevel == 3) Level3();
-    
+
     function arrowKeys(numberOfArrow, direction, speed) {
+        const consumeArrow = (arrow, catIndex, counterName) => {
+            counters[counterName] = counters[counterName] || 0
+            arrow.y -= speed
+            if (arrow.y < hitboxEnter && arrow.y >= hitboxExit) {
+                if (cursors[direction].isDown) {
+                    const animationName = `${direction}${catIndex}`
+                    cat.animations.play(animationName);
+                    points++
+                    counters[counterName]++
+                    arrow.y = window.innerHeight
+                }
+            }
+            else if (arrow.y < hitboxExit) {
+                counters[counterName]++
+                arrow.y = window.innerHeight
+            }
+        }
         if (numberOfArrow == 1) {
             if (direction == "up") {
-                up_a2.y -= speed
-                if (up_a2.y < hitboxEnter && up_a2.y >= hitboxExit) {
-                    if (cursors.up.isDown) {
-                        cat.animations.play('up');
-                        points++
-                        countu2++
-                        up_a2.y = window.innerHeight
-                    }
-                }
-                else if (up_a2.y < hitboxExit) {
-                    countu2++
-                    up_a2.y = window.innerHeight
-                }
+                consumeArrow(up_a2, 1, "countu2");
             }
             else if (direction == "down") {
-                down_a2.y -= speed
-                if (down_a2.y < hitboxEnter && down_a2.y >= hitboxExit) {
-                    if (cursors.down.isDown) {
-                        cat.animations.play('down');
-                        points++
-                        countd2++
-                        down_a2.y = window.innerHeight
-                    }
-                }
-                else if (down_a2.y < hitboxExit) {
-                    countd2++
-                    down_a2.y = window.innerHeight
-                }
+                consumeArrow(down_a2, 1, "countd2");
             }
             else if (direction == "right") {
-                right_a2.y -= speed
-                if (right_a2.y < hitboxEnter && right_a2.y >= hitboxExit) {
-                    if (cursors.right.isDown) {
-                        cat.animations.play('right');
-                        points++
-                        countr2++
-                        right_a2.y = window.innerHeight
-                    }
-                }
-                else if (right_a2.y < hitboxExit) {
-                    countr2++
-                    right_a2.y = window.innerHeight
-                }
+                consumeArrow(right_a2, 1, "countr2");
             }
             else if (direction == "left") {
-                left_a2.y -= speed
-                if (left_a2.y < hitboxEnter && left_a2.y >= hitboxExit) {
-                    if (cursors.left.isDown) {
-                        cat.animations.play('left');
-                        points++
-                        countl2++
-                        left_a2.y = window.innerHeight
-                    }
-                }
-                else if (left_a2.y < hitboxExit) {
-                    countl2++
-                    left_a2.y = window.innerHeight
-                }
+                consumeArrow(left_a2, 1, "countl2");
             }
         }
         else if (numberOfArrow == 2) {
             if (direction == "up") {
-                up_aa2.y -= speed
-                if (up_aa2.y < hitboxEnter && up_aa2.y >= hitboxExit) {
-                    if (cursors.up.isDown) {
-                        cat.animations.play('up');
-                        points++
-                        countuu2++
-                        up_aa2.y = window.innerHeight
-                    }
-                }
-                else if (up_aa2.y < hitboxExit) {
-                    countuu2++
-                    up_aa2.y = window.innerHeight
-                }
+                consumeArrow(up_aa2, 1, "countuu2");
             }
             else if (direction == "down") {
-                down_aa2.y -= speed
-                if (down_aa2.y < hitboxEnter && down_aa2.y >= hitboxExit) {
-                    if (cursors.down.isDown) {
-                        cat.animations.play('down');
-                        points++
-                        countdd2++
-                        down_aa2.y = window.innerHeight
-                    }
-                }
-                else if (down_aa2.y < hitboxExit) {
-                    countdd2++
-                    down_aa2.y = window.innerHeight
-                }
+                consumeArrow(down_aa2, 1, "countdd2");
             }
             else if (direction == "right") {
-                right_aa2.y -= speed
-                if (right_aa2.y < hitboxEnter && right_aa2.y >= hitboxExit) {
-                    if (cursors.right.isDown) {
-                        cat.animations.play('right');
-                        points++
-                        countrr2++
-                        right_aa2.y = window.innerHeight
-                    }
-                }
-                else if (right_aa2.y < hitboxExit) {
-                    countrr2++
-                    right_aa2.y = window.innerHeight
-                }
+                consumeArrow(right_aa2, 1, "countrr2");
             }
             else if (direction == "left") {
-                left_aa2.y -= speed
-                if (left_aa2.y < hitboxEnter && left_aa2.y >= hitboxExit) {
-                    if (cursors.left.isDown) {
-                        cat.animations.play('left');
-                        points++
-                        countll2++
-                        left_aa2.y = window.innerHeight
-                    }
-                }
-                else if (left_aa2.y < hitboxExit) {
-                    countll2++
-                    left_aa2.y = window.innerHeight
-                }
+                consumeArrow(left_aa2, 1, "countll2");
             }
         }
     }
     function npcArrowKeys(numberofArrow, direction, speed, whichCat) {
+        const npcConsumeArrow = (arrow, counterName) => {
+            counters[counterName] = counters[counterName] || 0
+            if (arrow.y > 0) {
+                arrow.y -= speed;
+            }
+            else {
+                const animationName = `${direction}${whichCat}`
+                counters[counterName]++;
+                arrow.y = window.innerHeight;
+                if (whichCat == 2) cat2.animations.play(animationName);
+                else if (whichCat == 3) cat3.animations.play(animationName);
+            }
+        }
         if (numberofArrow == 1) {
             if (direction == "up") {
-                if (up_a.y > 0) {
-                    up_a.y -= speed;
-                }
-                else {
-                    npcArrowKeys("left", 5, 1)
-                    countu++;
-                    up_a.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('up2');
-                    else if (whichCat == 2) cat3.animations.play('up3')
-                }
+                npcConsumeArrow(up_a, "countu")
             }
             else if (direction == "down") {
-                if (down_a.y > 0) {
-                    down_a.y -= speed;
-                }
-                else {
-                    countd++;
-                    down_a.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('down2');
-                    else if (whichCat == 2) cat3.animations.play('down3')
-                }
+                npcConsumeArrow(down_a, "countd")
             }
             else if (direction == "right") {
-                if (right_a.y > 0) {
-                    right_a.y -= speed;
-                }
-                else {
-                    countr++;
-                    right_a.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('right2');
-                    else if (whichCat == 2) cat3.animations.play('right3')
-                }
+                npcConsumeArrow(right_a, "countr")
             }
             else if (direction == "left") {
-                if (left_a.y > 0) {
-                    left_a.y -= speed;
-                }
-                else {
-                    countl++;
-                    left_a.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('left2');
-                    else if (whichCat == 2) cat3.animations.play('left3')
-                }
+                npcConsumeArrow(left_a, "countl")
             }
-
         }
         if (numberofArrow == 2) {
             if (direction == "up") {
-                if (up_aa.y > 0) {
-                    up_aa.y -= speed;
-                }
-                else {
-                    countuu++;
-                    up_aa.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('up2');
-                    else if (whichCat == 2) cat3.animations.play('up3')
-                }
+                npcConsumeArrow(up_aa, "countuu")
             }
             else if (direction == "down") {
-                if (down_aa.y > 0) {
-                    down_aa.y -= speed;
-                }
-                else {
-                    countdd++;
-                    down_aa.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('down2');
-                    else if (whichCat == 2) cat3.animations.play('down3')
-                }
+                npcConsumeArrow(down_aa, "countdd")
             }
             else if (direction == "right") {
-                if (right_aa.y > 0) {
-                    right_aa.y -= speed;
-                }
-                else {
-                    countrr++;
-                    right_aa.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('right2');
-                    else if (whichCat == 2) cat3.animations.play('right3')
-                }
+                npcConsumeArrow(right_aa, "countrr")
             }
             else if (direction == "left") {
-                if (left_aa.y > 0) {
-                    left_aa.y -= speed;
-                }
-                else {
-                    countll++;
-                    left_aa.y = window.innerHeight;
-                    if (whichCat == 1) cat2.animations.play('left2');
-                    else if (whichCat == 2) cat3.animations.play('left3')
-                }
+                npcConsumeArrow(left_aa, "countll")
             }
-
         }
     }
 
     function Level1() {
         if (level1.x != Game.innerwidth) level1.x += 10
         setTimeout(function () {
-            if (countu == 0) {
-                npcArrowKeys(1, "up", 5, 1)
+            if (counters["countu"] == 0) {
+                npcArrowKeys(1, "up", 5, 2)
             }
         }, 6100)
         setTimeout(function () {
-            if (countd == 0) {
-                npcArrowKeys(1, "down", 5, 1)
+            if (counters["countd"] == 0) {
+                npcArrowKeys(1, "down", 5, 2)
             }
         }
             , 7100)
         setTimeout(function () {
-            if (countu2 == 0) {
+            if (counters["countu2"] == 0) {
                 arrowKeys(1, "up", 5);
             }
             setTimeout(function () {
-                if (countd2 == 0) {
+                if (counters["countd2"] == 0) {
                     arrowKeys(1, "down", 5);
                 }
             }, 1000)
         }, 8000)
         setTimeout(function () {
-            if (countl == 0) {
-                npcArrowKeys(1, "left", 5, 1)
+            if (counters["countl"] == 0) {
+                npcArrowKeys(1, "left", 5, 2)
             }
             setTimeout(function () {
-                if (countr == 0) {
-                    npcArrowKeys(1, "right", 5, 1)
+                if (counters["countr"] == 0) {
+                    npcArrowKeys(1, "right", 5, 2)
                 }
             }
                 , 800)
         }, 9800)
         setTimeout(function () {
-            if (countl2 == 0) {
+            if (counters["countl2"] == 0) {
                 arrowKeys(1, "left", 5);
             }
             setTimeout(function () {
-                if (countr2 == 0) {
+                if (counters["countr2"] == 0) {
                     arrowKeys(1, "right", 5);
                 }
             }, 900)
         }, 11800)
         setTimeout(function () {
-            if (countl == 1) {
-                npcArrowKeys(1, "left", 5, 1)
+            if (counters["countl"] == 1) {
+                npcArrowKeys(1, "left", 5, 2)
             }
             setTimeout(function () {
-                if (countr == 1) {
-                    npcArrowKeys(1, "right", 5, 1)
+                if (counters["countr"] == 1) {
+                    npcArrowKeys(1, "right", 5, 2)
                 }
             }
                 , 1000)
             setTimeout(function () {
-                if (countu == 1) {
-                    npcArrowKeys(1, "up", 5, 1)
+                if (counters["countu"] == 1) {
+                    npcArrowKeys(1, "up", 5, 2)
                 }
             }
                 , 2000)
             setTimeout(function () {
-                if (countd == 1) {
-                    npcArrowKeys(1, "down", 5, 1)
+                if (counters["countd"] == 1) {
+                    npcArrowKeys(1, "down", 5, 2)
                 }
             }
                 , 3000)
         }, 13400)
         setTimeout(function () {
-            if (countl2 == 1) {
+            if (counters["countl2"] == 1) {
                 arrowKeys(1, "left", 5);
             }
             setTimeout(function () {
-                if (countr2 == 1) {
+                if (counters["countr2"] == 1) {
                     arrowKeys(1, "right", 5);
                 }
                 setTimeout(function () {
-                    if (countu2 == 1) {
+                    if (counters["countu2"] == 1) {
                         arrowKeys(1, "up", 5);
                     }
                     setTimeout(function () {
-                        if (countd2 == 1) {
+                        if (counters["countd2"] == 1) {
                             arrowKeys(1, "down", 5);
                         }
                     }, 900)
@@ -509,43 +379,43 @@ function update() {
             }, 900)
         }, 17200)
         setTimeout(function () {
-            if (countr == 2) {
-                npcArrowKeys(1, "right", 5, 1)
+            if (counters["countr"] == 2) {
+                npcArrowKeys(1, "right", 5, 2)
             }
             setTimeout(function () {
-                if (countd == 2) {
-                    npcArrowKeys(1, "down", 5, 1)
+                if (counters["countd"] == 2) {
+                    npcArrowKeys(1, "down", 5, 2)
                 }
             }
                 , 1000)
             setTimeout(function () {
-                if (countl == 2) {
-                    npcArrowKeys(1, "left", 5, 1)
+                if (counters["countl"] == 2) {
+                    npcArrowKeys(1, "left", 5, 2)
                 }
             }
                 , 2000)
             setTimeout(function () {
-                if (countu == 2) {
-                    npcArrowKeys(1, "up", 5, 1)
+                if (counters["countu"] == 2) {
+                    npcArrowKeys(1, "up", 5, 2)
                 }
             }
                 , 3000)
 
         }, 20500)
         setTimeout(function () {
-            if (countr2 == 2) {
+            if (counters["countr2"] == 2) {
                 arrowKeys(1, "right", 5);
             }
             setTimeout(function () {
-                if (countd2 == 2) {
+                if (counters["countd2"] == 2) {
                     arrowKeys(1, "down", 5);
                 }
                 setTimeout(function () {
-                    if (countl2 == 2) {
+                    if (counters["countl2"] == 2) {
                         arrowKeys(1, "left", 5);
                     }
                     setTimeout(function () {
-                        if (countu2 == 2) {
+                        if (counters["countu2"] == 2) {
                             arrowKeys(1, "up", 5);
                         }
                     }, 900)
@@ -553,11 +423,11 @@ function update() {
             }, 900)
         }, 24500)
         setTimeout(function () {
-            if (points >= 9 && countu2 == 3) {
+            if (points >= 9 && counters["countu2"] == 3) {
                 currlevel = 2;
                 needed = 28;
             }
-            else if (points < 9 && countu2 == 3) {
+            else if (points < 9 && counters["countu2"] == 3) {
                 levelf.anchor.setTo(0.5)
                 levelf.x = Game.width / 2
                 setTimeout(function () {
@@ -578,53 +448,53 @@ function update() {
             currMusic = 2;
         }
         setTimeout(function () {
-            if (countr == 3) {
-                npcArrowKeys(1, "right", 10, 2)
+            if (counters["countr"] == 3) {
+                npcArrowKeys(1, "right", 10, 3)
             }
             setTimeout(function () {
-                if (countd == 3) {
-                    npcArrowKeys(1, "down", 10, 2)
+                if (counters["countd"] == 3) {
+                    npcArrowKeys(1, "down", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (countu == 3) {
-                    npcArrowKeys(1, "up", 10, 2)
+                if (counters["countu"] == 3) {
+                    npcArrowKeys(1, "up", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
-                if (countuu == 0) {
-                    npcArrowKeys(2, "up", 10, 2)
+                if (counters["countuu"] == 0) {
+                    npcArrowKeys(2, "up", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (countl == 3) {
-                    npcArrowKeys(1, "left", 10, 2)
+                if (counters["countl"] == 3) {
+                    npcArrowKeys(1, "left", 10, 3)
                 }
             }
                 , 1950)
 
         }, 4110)
         setTimeout(function () {
-            if (countr2 == 3) {
+            if (counters["countr2"] == 3) {
                 arrowKeys(1, "right", 10)
             }
             setTimeout(function () {
-                if (countd2 == 3) {
+                if (counters["countd2"] == 3) {
                     arrowKeys(1, "down", 10)
                 }
                 setTimeout(function () {
-                    if (countu2 == 3) {
+                    if (counters["countu2"] == 3) {
                         arrowKeys(1, "up", 10)
                     }
                     setTimeout(function () {
-                        if (countuu2 == 0) {
+                        if (counters["countuu2"] == 0) {
                             arrowKeys(2, "up", 10)
                         }
                         setTimeout(function () {
-                            if (countl2 == 3) {
+                            if (counters["countl2"] == 3) {
                                 arrowKeys(1, "left", 10)
                             }
                         }, 400)
@@ -633,32 +503,32 @@ function update() {
             }, 650)
         }, 6860)
         setTimeout(function () {
-            if (countd == 4) {
-                npcArrowKeys(1, "down", 10, 2)
+            if (counters["countd"] == 4) {
+                npcArrowKeys(1, "down", 10, 3)
             }
 
             setTimeout(function () {
-                if (countl == 4) {
-                    npcArrowKeys(1, "left", 10, 2)
+                if (counters["countl"] == 4) {
+                    npcArrowKeys(1, "left", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (countr == 4) {
-                    npcArrowKeys(1, "right", 10, 2)
+                if (counters["countr"] == 4) {
+                    npcArrowKeys(1, "right", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
 
-                if (countrr == 0) {
-                    npcArrowKeys(2, "right", 10, 2)
+                if (counters["countrr"] == 0) {
+                    npcArrowKeys(2, "right", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (countu == 4) {
-                    npcArrowKeys(1, "up", 10, 2)
+                if (counters["countu"] == 4) {
+                    npcArrowKeys(1, "up", 10, 3)
                 }
             }
                 , 1950)
@@ -666,24 +536,24 @@ function update() {
         }, 9610)
         setTimeout(function () {
 
-            if (countd2 == 4) {
+            if (counters["countd2"] == 4) {
                 arrowKeys(1, "down", 10)
             }
             setTimeout(function () {
-                if (countl2 == 4) {
+                if (counters["countl2"] == 4) {
                     arrowKeys(1, "left", 10)
                 }
                 setTimeout(function () {
-                    if (countr2 == 4) {
+                    if (counters["countr2"] == 4) {
                         arrowKeys(1, "right", 10)
                     }
 
                     setTimeout(function () {
-                        if (countrr2 == 0) {
+                        if (counters["countrr2"] == 0) {
                             arrowKeys(2, "right", 10)
                         }
                         setTimeout(function () {
-                            if (countu2 == 4) {
+                            if (counters["countu2"] == 4) {
                                 arrowKeys(1, "up", 10)
                             }
                         }, 400)
@@ -692,52 +562,53 @@ function update() {
             }, 650)
         }, 11860)
         setTimeout(function () {
-            if (countu == 5) {
-                npcArrowKeys(1, "up", 10, 2)
+            if (counters["countu"] == 5) {
+                npcArrowKeys(1, "up", 10, 3)
             }
             setTimeout(function () {
-                if (countr == 5) {
-                    npcArrowKeys(1, "right", 10, 2)
+                if (counters["countr"] == 5) {
+                    npcArrowKeys(1, "right", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (countd == 5) {
-                    npcArrowKeys(1, "down", 10, 2)
-                }            }
+                if (counters["countd"] == 5) {
+                    npcArrowKeys(1, "down", 10, 3)
+                }
+            }
                 , 1050)
             setTimeout(function () {
-                if (countdd == 0) {
-                    npcArrowKeys(2, "down", 10, 2)
+                if (counters["countdd"] == 0) {
+                    npcArrowKeys(2, "down", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (countl == 5) {
-                    npcArrowKeys(1, "left", 10, 2)
+                if (counters["countl"] == 5) {
+                    npcArrowKeys(1, "left", 10, 3)
                 }
             }
                 , 1950)
 
         }, 14610)
         setTimeout(function () {
-            if (countu2 == 5) {
+            if (counters["countu2"] == 5) {
                 arrowKeys(1, "up", 10)
             }
             setTimeout(function () {
-                if (countr2 == 5) {
+                if (counters["countr2"] == 5) {
                     arrowKeys(1, "right", 10)
                 }
                 setTimeout(function () {
-                    if (countd2 == 5) {
+                    if (counters["countd2"] == 5) {
                         arrowKeys(1, "down", 10)
                     }
                     setTimeout(function () {
-                        if (countdd2 == 0) {
+                        if (counters["countdd2"] == 0) {
                             arrowKeys(2, "down", 10)
                         }
                         setTimeout(function () {
-                            if (countl2 == 5) {
+                            if (counters["countl2"] == 5) {
                                 arrowKeys(1, "left", 10)
                             }
                         }, 400)
@@ -746,68 +617,67 @@ function update() {
             }, 650)
         }, 17060)
         setTimeout(function () {
-            if (countl == 6) {
-                npcArrowKeys(1, "left", 10, 2)
+            if (counters["countl"] == 6) {
+                npcArrowKeys(1, "left", 10, 3)
             }
             setTimeout(function () {
-                if (countu == 6) {
-                    npcArrowKeys(1, "up", 10, 2) 
+                if (counters["countu"] == 6) {
+                    npcArrowKeys(1, "up", 10, 3)
                 }
             }
                 , 650)
             setTimeout(function () {
-                if (countd == 6) {
-                    npcArrowKeys(1, "down", 10, 2)
+                if (counters["countd"] == 6) {
+                    npcArrowKeys(1, "down", 10, 3)
                 }
             }
                 , 1050)
             setTimeout(function () {
 
-                if (countdd == 1) { 
-                    npcArrowKeys(2, "down", 10, 2) 
+                if (counters["countdd"] == 1) {
+                    npcArrowKeys(2, "down", 10, 3)
                 }
             }
                 , 1550)
             setTimeout(function () {
-                if (countr == 6) { 
-                    npcArrowKeys(1, "right", 10, 2)
+                if (counters["countr"] == 6) {
+                    npcArrowKeys(1, "right", 10, 3)
                 }
             }
                 , 1950)
 
         }, 19610)
         setTimeout(function () {
-            if (countl2 == 6) {
+            if (counters["countl2"] == 6) {
                 arrowKeys(1, "left", 10)
             }
 
             setTimeout(function () {
-                if (countll2 == 0) {
+                if (counters["countll2"] == 0) {
                     arrowKeys(2, "left", 10)
                 }
                 setTimeout(function () {
-                    if (countu2 == 6) {
+                    if (counters["countu2"] == 6) {
                         arrowKeys(1, "up", 10)
-
                     }
                     setTimeout(function () {
-                        if (countd2 == 6) {
+                        if (counters["countd2"] == 6) {
                             arrowKeys(1, "down", 10)
                         }
                         setTimeout(function () {
-                            if (countdd2 == 1) {
+                            if (counters["countdd2"] == 1) {
                                 arrowKeys(2, "down", 10)
                             }
                             setTimeout(function () {
-                                if (countr2 == 6) {
+                                if (counters["countr2"] == 6) {
                                     arrowKeys(1, "right", 10)
                                 }
                                 setTimeout(function () {
-                                    if (countu2 == 7) {
+                                    if (counters["countu2"] == 7) {
                                         arrowKeys(1, "up", 10)
                                     }
                                     setTimeout(function () {
-                                        if (countl2 == 7) {
+                                        if (counters["countl2"] == 7) {
                                             arrowKeys(1, "left", 10)
                                         }
                                     }, 300)
@@ -819,10 +689,10 @@ function update() {
             }, 600)
         }, 21960)
         setTimeout(function () {
-            if (points >= 28 && countl2 == 8) {
+            if (points >= 28 && counters["countl2"] == 8) {
                 setTimeout(function () { currlevel = 3; needed = 100 }, 1000)
             }
-            else if (points < 28 && countl2 == 8) {
+            else if (points < 28 && counters["countl2"] == 8) {
                 levelf.anchor.setTo(0.5)
                 levelf.x = Game.width / 2
                 setTimeout(function () {
@@ -844,69 +714,70 @@ function update() {
         setTimeout(function () {
             if (!isRulesShown) {
                 clicks.x = Game.width / 2;
-                isRulesShown=true;
+                isRulesShown = true;
             }
             setTimeout(function () {
-                if (isRulesShown) { clicks.x = -1000;}
+                if (isRulesShown) { clicks.x = -1000; }
                 go.x = Game.width / 2;
             }, 4000)
         }, 5000)
         setTimeout(function () {
             if (currMusic == 3) {
-                if (cursors.up.isDown && 
-                    countu2 < countd2 + 1 && 
-                    countu2 < countl2 + 1 && 
-                    countu2 < countr2 + 1) {
+                if (cursors.up.isDown &&
+                    counters["countu2"] < counters["countd2"] + 1 &&
+                    counters["countu2"] < counters["countr2"] + 1 &&
+                    counters["countu2"] < counters["countl2"] + 1) {
                     go.y = -1000;
-                    cat.animations.play('up', 30)
+                    cat.animations.play('up1', 30)
                     cat4.animations.play('up4', 30)
-                    countu2++
+                    counters["countu2"]++
                     points++
                 }
-                else if (cursors.down.isDown && 
-                    countd2 < countu2 + 1 && 
-                    countd2 < countl2 + 1 && 
-                    countd2 < countr2 + 1) {
+                else if (cursors.down.isDown &&
+                    counters["countd2"] < counters["countu2"] + 1 &&
+                    counters["countd2"] < counters["countl2"] + 1 &&
+                    counters["countd2"] < counters["countl2"] + 1) {
                     go.y = -1000;
-                    cat.animations.play('down', 30)
+                    cat.animations.play('down1', 30)
                     cat4.animations.play('down4', 30)
-                    countd2++
+                    counters["countd2"]++
                     points++
                 }
-                else if (cursors.right.isDown && 
-                    countr2 < countl2 + 1 &&
-                    countr2 < countd2 + 1 &&
-                    countr2 < countu2 + 1) {
+                else if (cursors.right.isDown &&
+                    counters["countr2"] < counters["countl2"] + 1 &&
+                    counters["countr2"] < counters["countd2"] + 1 &&
+                    counters["countr2"] < counters["countu2"] + 1) {
                     go.y = -1000;
-                    cat.animations.play('right', 30)
+                    cat.animations.play('right1', 30)
                     cat4.animations.play('right4', 30)
-                    countr2++
+                    counters["countr2"]++
                     points++
                 }
-                else if (cursors.left.isDown && 
-                    countl2 < countr2 + 1 && 
-                    countl2 < countd2 + 1 && 
-                    countl2 < countu2 + 1) {
+                else if (cursors.left.isDown &&
+                    counters["countl2"] < counters["countr2"] + 1 &&
+                    counters["countl2"] < counters["countd2"] + 1 &&
+                    counters["countl2"] < counters["countu2"] + 1) {
                     go.y = -1000;
-                    cat.animations.play('left', 30)
+                    cat.animations.play('left1', 30)
                     cat4.animations.play('left4', 30)
-                    countl2++
+                    counters["countl2"]++
                     points++
                 }
             }
         }, 10000)
         setTimeout(function () {
             if (points >= 100) {
-                
-                currMusic++                
+
+                currMusic++
                 if (currMusic == 4) {
                     win.x = Game.width / 2;
                     currMusic++
                 }
                 setTimeout(function () {
-                    if (currMusic == 5) { 
-                        win.y = -1000; 
-                        currMusic++}
+                    if (currMusic == 5) {
+                        win.y = -1000;
+                        currMusic++
+                    }
                     credits.y = Game.height / 2
                 }, 3000)
             }
