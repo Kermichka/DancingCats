@@ -199,7 +199,7 @@ function update() {
     else if (currlevel === 2) Level2();
     else if (currlevel === 3) Level3();
 
-    function arrowKeys(numberOfArrow, direction, speed) {
+    function rightCatArrowKeys(numberOfArrow, direction, speed) {
         const consumeArrow = (arrow, catIndex, counterName) => {
             counters[counterName] = counters[counterName] || 0;
             arrow.y -= speed;
@@ -246,7 +246,7 @@ function update() {
             }
         }
     }
-    function npcArrowKeys(numberofArrow, direction, speed, whichCat) {
+    function leftCatArrowKeys(numberofArrow, direction, speed, whichCat) {
         const npcConsumeArrow = (arrow, counterName) => {
             counters[counterName] = counters[counterName] || 0;
             if (arrow.y > 0) {
@@ -294,84 +294,84 @@ function update() {
         if (level1.x != Game.innerwidth) level1.x += 10;
         setTimeout(function () {
             if (counters["countu"] === 0) {
-                npcArrowKeys(1, "up", 5, 2);
+                leftCatArrowKeys(1, "up", 5, 2);
             }
         }, 6100)
         setTimeout(function () {
             if (counters["countd"] === 0) {
-                npcArrowKeys(1, "down", 5, 2);
+                leftCatArrowKeys(1, "down", 5, 2);
             }
         }
             , 7100)
         setTimeout(function () {
             if (counters["countu2"] === 0) {
-                arrowKeys(1, "up", 5);
+                rightCatArrowKeys(1, "up", 5);
             }
             setTimeout(function () {
                 if (counters["countd2"] === 0) {
-                    arrowKeys(1, "down", 5);
+                    rightCatArrowKeys(1, "down", 5);
                 }
             }, 1000)
         }, 8000)
         setTimeout(function () {
             if (counters["countl"] === 0) {
-                npcArrowKeys(1, "left", 5, 2);
+                leftCatArrowKeys(1, "left", 5, 2);
             }
             setTimeout(function () {
                 if (counters["countr"] === 0) {
-                    npcArrowKeys(1, "right", 5, 2);
+                    leftCatArrowKeys(1, "right", 5, 2);
                 }
             }
                 , 800)
         }, 9800)
         setTimeout(function () {
             if (counters["countl2"] === 0) {
-                arrowKeys(1, "left", 5);
+                rightCatArrowKeys(1, "left", 5);
             }
             setTimeout(function () {
                 if (counters["countr2"] === 0) {
-                    arrowKeys(1, "right", 5);
+                    rightCatArrowKeys(1, "right", 5);
                 }
             }, 900)
         }, 11800)
         setTimeout(function () {
             if (counters["countl"] === 1) {
-                npcArrowKeys(1, "left", 5, 2);
+                leftCatArrowKeys(1, "left", 5, 2);
             }
             setTimeout(function () {
                 if (counters["countr"] === 1) {
-                    npcArrowKeys(1, "right", 5, 2);
+                    leftCatArrowKeys(1, "right", 5, 2);
                 }
             }
                 , 1000)
             setTimeout(function () {
                 if (counters["countu"] === 1) {
-                    npcArrowKeys(1, "up", 5, 2);
+                    leftCatArrowKeys(1, "up", 5, 2);
                 }
             }
                 , 2000)
             setTimeout(function () {
                 if (counters["countd"] === 1) {
-                    npcArrowKeys(1, "down", 5, 2);
+                    leftCatArrowKeys(1, "down", 5, 2);
                 }
             }
                 , 3000)
         }, 13400)
         setTimeout(function () {
             if (counters["countl2"] === 1) {
-                arrowKeys(1, "left", 5);
+                rightCatArrowKeys(1, "left", 5);
             }
             setTimeout(function () {
                 if (counters["countr2"] === 1) {
-                    arrowKeys(1, "right", 5);
+                    rightCatArrowKeys(1, "right", 5);
                 }
                 setTimeout(function () {
                     if (counters["countu2"] === 1) {
-                        arrowKeys(1, "up", 5);
+                        rightCatArrowKeys(1, "up", 5);
                     }
                     setTimeout(function () {
                         if (counters["countd2"] === 1) {
-                            arrowKeys(1, "down", 5);
+                            rightCatArrowKeys(1, "down", 5);
                         }
                     }, 900)
                 }, 900)
@@ -379,23 +379,23 @@ function update() {
         }, 17200)
         setTimeout(function () {
             if (counters["countr"] === 2) {
-                npcArrowKeys(1, "right", 5, 2);
+                leftCatArrowKeys(1, "right", 5, 2);
             }
             setTimeout(function () {
                 if (counters["countd"] === 2) {
-                    npcArrowKeys(1, "down", 5, 2);
+                    leftCatArrowKeys(1, "down", 5, 2);
                 }
             }
                 , 1000)
             setTimeout(function () {
                 if (counters["countl"] === 2) {
-                    npcArrowKeys(1, "left", 5, 2);
+                    leftCatArrowKeys(1, "left", 5, 2);
                 }
             }
                 , 2000)
             setTimeout(function () {
                 if (counters["countu"] === 2) {
-                    npcArrowKeys(1, "up", 5, 2);
+                    leftCatArrowKeys(1, "up", 5, 2);
                 }
             }
                 , 3000)
@@ -403,19 +403,19 @@ function update() {
         }, 20500)
         setTimeout(function () {
             if (counters["countr2"] === 2) {
-                arrowKeys(1, "right", 5);
+                rightCatArrowKeys(1, "right", 5);
             }
             setTimeout(function () {
                 if (counters["countd2"] === 2) {
-                    arrowKeys(1, "down", 5);
+                    rightCatArrowKeys(1, "down", 5);
                 }
                 setTimeout(function () {
                     if (counters["countl2"] === 2) {
-                        arrowKeys(1, "left", 5);
+                        rightCatArrowKeys(1, "left", 5);
                     }
                     setTimeout(function () {
                         if (counters["countu2"] === 2) {
-                            arrowKeys(1, "up", 5);
+                            rightCatArrowKeys(1, "up", 5);
                         }
                     }, 900)
                 }, 900)
@@ -448,29 +448,29 @@ function update() {
         }
         setTimeout(function () {
             if (counters["countr"] === 3) {
-                npcArrowKeys(1, "right", 10, 3);
+                leftCatArrowKeys(1, "right", 10, 3);
             }
             setTimeout(function () {
                 if (counters["countd"] === 3) {
-                    npcArrowKeys(1, "down", 10, 3);
+                    leftCatArrowKeys(1, "down", 10, 3);
                 }
             }
                 , 650)
             setTimeout(function () {
                 if (counters["countu"] === 3) {
-                    npcArrowKeys(1, "up", 10, 3);
+                    leftCatArrowKeys(1, "up", 10, 3);
                 }
             }
                 , 1050)
             setTimeout(function () {
                 if (counters["countuu"] === 0) {
-                    npcArrowKeys(2, "up", 10, 3);
+                    leftCatArrowKeys(2, "up", 10, 3);
                 }
             }
                 , 1550)
             setTimeout(function () {
                 if (counters["countl"] === 3) {
-                    npcArrowKeys(1, "left", 10, 3);
+                    leftCatArrowKeys(1, "left", 10, 3);
                 }
             }
                 , 1950)
@@ -478,23 +478,23 @@ function update() {
         }, 4110)
         setTimeout(function () {
             if (counters["countr2"] === 3) {
-                arrowKeys(1, "right", 10);
+                rightCatArrowKeys(1, "right", 10);
             }
             setTimeout(function () {
                 if (counters["countd2"] === 3) {
-                    arrowKeys(1, "down", 10);
+                    rightCatArrowKeys(1, "down", 10);
                 }
                 setTimeout(function () {
                     if (counters["countu2"] === 3) {
-                        arrowKeys(1, "up", 10);
+                        rightCatArrowKeys(1, "up", 10);
                     }
                     setTimeout(function () {
                         if (counters["countuu2"] === 0) {
-                            arrowKeys(2, "up", 10);
+                            rightCatArrowKeys(2, "up", 10);
                         }
                         setTimeout(function () {
                             if (counters["countl2"] === 3) {
-                                arrowKeys(1, "left", 10);
+                                rightCatArrowKeys(1, "left", 10);
                             }
                         }, 400)
                     }, 500)
@@ -503,31 +503,31 @@ function update() {
         }, 6860)
         setTimeout(function () {
             if (counters["countd"] === 4) {
-                npcArrowKeys(1, "down", 10, 3);
+                leftCatArrowKeys(1, "down", 10, 3);
             }
 
             setTimeout(function () {
                 if (counters["countl"] === 4) {
-                    npcArrowKeys(1, "left", 10, 3);
+                    leftCatArrowKeys(1, "left", 10, 3);
                 }
             }
                 , 650)
             setTimeout(function () {
                 if (counters["countr"] === 4) {
-                    npcArrowKeys(1, "right", 10, 3);
+                    leftCatArrowKeys(1, "right", 10, 3);
                 }
             }
                 , 1050)
             setTimeout(function () {
 
                 if (counters["countrr"] === 0) {
-                    npcArrowKeys(2, "right", 10, 3);
+                    leftCatArrowKeys(2, "right", 10, 3);
                 }
             }
                 , 1550)
             setTimeout(function () {
                 if (counters["countu"] === 4) {
-                    npcArrowKeys(1, "up", 10, 3);
+                    leftCatArrowKeys(1, "up", 10, 3);
                 }
             }
                 , 1950)
@@ -536,24 +536,24 @@ function update() {
         setTimeout(function () {
 
             if (counters["countd2"] === 4) {
-                arrowKeys(1, "down", 10);
+                rightCatArrowKeys(1, "down", 10);
             }
             setTimeout(function () {
                 if (counters["countl2"] === 4) {
-                    arrowKeys(1, "left", 10);
+                    rightCatArrowKeys(1, "left", 10);
                 }
                 setTimeout(function () {
                     if (counters["countr2"] === 4) {
-                        arrowKeys(1, "right", 10);
+                        rightCatArrowKeys(1, "right", 10);
                     }
 
                     setTimeout(function () {
                         if (counters["countrr2"] === 0) {
-                            arrowKeys(2, "right", 10);
+                            rightCatArrowKeys(2, "right", 10);
                         }
                         setTimeout(function () {
                             if (counters["countu2"] === 4) {
-                                arrowKeys(1, "up", 10);
+                                rightCatArrowKeys(1, "up", 10);
                             }
                         }, 400)
                     }, 500)
@@ -562,29 +562,29 @@ function update() {
         }, 11860)
         setTimeout(function () {
             if (counters["countu"] === 5) {
-                npcArrowKeys(1, "up", 10, 3);
+                leftCatArrowKeys(1, "up", 10, 3);
             }
             setTimeout(function () {
                 if (counters["countr"] === 5) {
-                    npcArrowKeys(1, "right", 10, 3);
+                    leftCatArrowKeys(1, "right", 10, 3);
                 }
             }
                 , 650)
             setTimeout(function () {
                 if (counters["countd"] === 5) {
-                    npcArrowKeys(1, "down", 10, 3);
+                    leftCatArrowKeys(1, "down", 10, 3);
                 }
             }
                 , 1050)
             setTimeout(function () {
                 if (counters["countdd"] === 0) {
-                    npcArrowKeys(2, "down", 10, 3);
+                    leftCatArrowKeys(2, "down", 10, 3);
                 }
             }
                 , 1550)
             setTimeout(function () {
                 if (counters["countl"] === 5) {
-                    npcArrowKeys(1, "left", 10, 3);
+                    leftCatArrowKeys(1, "left", 10, 3);
                 }
             }
                 , 1950)
@@ -592,23 +592,23 @@ function update() {
         }, 14610)
         setTimeout(function () {
             if (counters["countu2"] === 5) {
-                arrowKeys(1, "up", 10);
+                rightCatArrowKeys(1, "up", 10);
             }
             setTimeout(function () {
                 if (counters["countr2"] === 5) {
-                    arrowKeys(1, "right", 10);
+                    rightCatArrowKeys(1, "right", 10);
                 }
                 setTimeout(function () {
                     if (counters["countd2"] === 5) {
-                        arrowKeys(1, "down", 10);
+                        rightCatArrowKeys(1, "down", 10);
                     }
                     setTimeout(function () {
                         if (counters["countdd2"] === 0) {
-                            arrowKeys(2, "down", 10);
+                            rightCatArrowKeys(2, "down", 10);
                         }
                         setTimeout(function () {
                             if (counters["countl2"] === 5) {
-                                arrowKeys(1, "left", 10);
+                                rightCatArrowKeys(1, "left", 10);
                             }
                         }, 400)
                     }, 500)
@@ -617,30 +617,30 @@ function update() {
         }, 17060)
         setTimeout(function () {
             if (counters["countl"] === 6) {
-                npcArrowKeys(1, "left", 10, 3);
+                leftCatArrowKeys(1, "left", 10, 3);
             }
             setTimeout(function () {
                 if (counters["countu"] === 6) {
-                    npcArrowKeys(1, "up", 10, 3);
+                    leftCatArrowKeys(1, "up", 10, 3);
                 }
             }
                 , 650)
             setTimeout(function () {
                 if (counters["countd"] === 6) {
-                    npcArrowKeys(1, "down", 10, 3);
+                    leftCatArrowKeys(1, "down", 10, 3);
                 }
             }
                 , 1050)
             setTimeout(function () {
 
                 if (counters["countdd"] === 1) {
-                    npcArrowKeys(2, "down", 10, 3);
+                    leftCatArrowKeys(2, "down", 10, 3);
                 }
             }
                 , 1550)
             setTimeout(function () {
                 if (counters["countr"] === 6) {
-                    npcArrowKeys(1, "right", 10, 3);
+                    leftCatArrowKeys(1, "right", 10, 3);
                 }
             }
                 , 1950)
@@ -648,36 +648,36 @@ function update() {
         }, 19610)
         setTimeout(function () {
             if (counters["countl2"] === 6) {
-                arrowKeys(1, "left", 10);
+                rightCatArrowKeys(1, "left", 10);
             }
 
             setTimeout(function () {
                 if (counters["countll2"] === 0) {
-                    arrowKeys(2, "left", 10);
+                    rightCatArrowKeys(2, "left", 10);
                 }
                 setTimeout(function () {
                     if (counters["countu2"] === 6) {
-                        arrowKeys(1, "up", 10);
+                        rightCatArrowKeys(1, "up", 10);
                     }
                     setTimeout(function () {
                         if (counters["countd2"] === 6) {
-                            arrowKeys(1, "down", 10);
+                            rightCatArrowKeys(1, "down", 10);
                         }
                         setTimeout(function () {
                             if (counters["countdd2"] === 1) {
-                                arrowKeys(2, "down", 10);
+                                rightCatArrowKeys(2, "down", 10);
                             }
                             setTimeout(function () {
                                 if (counters["countr2"] === 6) {
-                                    arrowKeys(1, "right", 10);
+                                    rightCatArrowKeys(1, "right", 10);
                                 }
                                 setTimeout(function () {
                                     if (counters["countu2"] === 7) {
-                                        arrowKeys(1, "up", 10);
+                                        rightCatArrowKeys(1, "up", 10);
                                     }
                                     setTimeout(function () {
                                         if (counters["countl2"] === 7) {
-                                            arrowKeys(1, "left", 10);
+                                            rightCatArrowKeys(1, "left", 10);
                                         }
                                     }, 300)
                                 }, 300)
