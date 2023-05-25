@@ -246,7 +246,7 @@ function update() {
             }
         }
     }
-    function leftCatArrowKeys(numberofArrow, direction, speed, whichCat) {
+    function leftCatArrowKeys(numberOfArrow, direction, speed, whichCat) {
         const leftCatConsumeArrow = (arrow, counterName) => {
             counters[counterName] = counters[counterName] || 0;
             if (arrow.y > 0) {
@@ -260,7 +260,7 @@ function update() {
                 else if (whichCat === 3) cat3.animations.play(animationName);
             }
         }
-        if (numberofArrow === 1) {
+        if (numberOfArrow === 1) {
             if (direction === "up") {
                 leftCatConsumeArrow(up_a, "countu");
             }
@@ -274,7 +274,7 @@ function update() {
                 leftCatConsumeArrow(left_a, "countl");
             }
         }
-        if (numberofArrow === 2) {
+        if (numberOfArrow === 2) {
             if (direction === "up") {
                 leftCatConsumeArrow(up_aa, "countuu");
             }
