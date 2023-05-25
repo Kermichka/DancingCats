@@ -200,7 +200,7 @@ function update() {
     else if (currlevel === 3) Level3();
 
     function rightCatArrowKeys(numberOfArrow, direction, speed) {
-        const consumeArrow = (arrow, catIndex, counterName) => {
+        const rightCatConsumeArrow = (arrow, catIndex, counterName) => {
             counters[counterName] = counters[counterName] || 0;
             arrow.y -= speed;
             if (arrow.y < hitboxEnter && arrow.y >= hitboxExit) {
@@ -219,35 +219,35 @@ function update() {
         }
         if (numberOfArrow === 1) {
             if (direction === "up") {
-                consumeArrow(up_a2, 1, "countu2");
+                rightCatConsumeArrow(up_a2, 1, "countu2");
             }
             else if (direction === "down") {
-                consumeArrow(down_a2, 1, "countd2");
+                rightCatConsumeArrow(down_a2, 1, "countd2");
             }
             else if (direction === "right") {
-                consumeArrow(right_a2, 1, "countr2");
+                rightCatConsumeArrow(right_a2, 1, "countr2");
             }
             else if (direction === "left") {
-                consumeArrow(left_a2, 1, "countl2");
+                rightCatConsumeArrow(left_a2, 1, "countl2");
             }
         }
         else if (numberOfArrow === 2) {
             if (direction === "up") {
-                consumeArrow(up_aa2, 1, "countuu2");
+                rightCatConsumeArrow(up_aa2, 1, "countuu2");
             }
             else if (direction === "down") {
-                consumeArrow(down_aa2, 1, "countdd2");
+                rightCatConsumeArrow(down_aa2, 1, "countdd2");
             }
             else if (direction === "right") {
-                consumeArrow(right_aa2, 1, "countrr2");
+                rightCatConsumeArrow(right_aa2, 1, "countrr2");
             }
             else if (direction === "left") {
-                consumeArrow(left_aa2, 1, "countll2");
+                rightCatConsumeArrow(left_aa2, 1, "countll2");
             }
         }
     }
     function leftCatArrowKeys(numberofArrow, direction, speed, whichCat) {
-        const npcConsumeArrow = (arrow, counterName) => {
+        const leftCatConsumeArrow = (arrow, counterName) => {
             counters[counterName] = counters[counterName] || 0;
             if (arrow.y > 0) {
                 arrow.y -= speed;
@@ -262,30 +262,30 @@ function update() {
         }
         if (numberofArrow === 1) {
             if (direction === "up") {
-                npcConsumeArrow(up_a, "countu");
+                leftCatConsumeArrow(up_a, "countu");
             }
             else if (direction === "down") {
-                npcConsumeArrow(down_a, "countd");
+                leftCatConsumeArrow(down_a, "countd");
             }
             else if (direction === "right") {
-                npcConsumeArrow(right_a, "countr");
+                leftCatConsumeArrow(right_a, "countr");
             }
             else if (direction === "left") {
-                npcConsumeArrow(left_a, "countl");
+                leftCatConsumeArrow(left_a, "countl");
             }
         }
         if (numberofArrow === 2) {
             if (direction === "up") {
-                npcConsumeArrow(up_aa, "countuu");
+                leftCatConsumeArrow(up_aa, "countuu");
             }
             else if (direction === "down") {
-                npcConsumeArrow(down_aa, "countdd");
+                leftCatConsumeArrow(down_aa, "countdd");
             }
             else if (direction === "right") {
-                npcConsumeArrow(right_aa, "countrr");
+                leftCatConsumeArrow(right_aa, "countrr");
             }
             else if (direction === "left") {
-                npcConsumeArrow(left_aa, "countll");
+                leftCatConsumeArrow(left_aa, "countll");
             }
         }
     }
