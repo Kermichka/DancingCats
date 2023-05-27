@@ -289,138 +289,281 @@ function update() {
             }
         }
     }
-
+    const colors = {
+        white: 1,
+        gray: 2,
+        orange: 3,
+        black: 4,
+    }
     function Level1() {
-        if (level1.x != Game.innerwidth) level1.x += 10;
-        setTimeout(function () {
-            if (counters["countu"] === 0) {
-                leftCatArrowKeys(1, "up", 5, 2);
-            }
-        }, 6100)
-        setTimeout(function () {
-            if (counters["countd"] === 0) {
-                leftCatArrowKeys(1, "down", 5, 2);
-            }
+        if (level1.x != Game.innerwidth) {
+            level1.x += 10;
         }
-            , 7100)
-        setTimeout(function () {
-            if (counters["countu2"] === 0) {
-                rightCatArrowKeys(1, "up", 5);
-            }
+        
+        const stepsLevel1 = [
+            //left - 2
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 5,
+                timeoutMs: 6100,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countu"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 5,
+                timeoutMs: 7100,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countd"
+            },
+            //right - 2
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 5,
+                timeoutMs: 8000,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countu2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 5,
+                timeoutMs: 9000,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countd2"
+            },
+            //left - 2
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 5,
+                timeoutMs: 9800,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countl"
+            },
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 5,
+                timeoutMs: 10600,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countr"
+            },
+            //right - 2
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 5,
+                timeoutMs: 11800,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countl2"
+            },
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 5,
+                timeoutMs: 12600,
+                counterValue: 0,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countr2"
+            },
+            //left - 4
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 5,
+                timeoutMs: 13400,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countl"
+            },
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 5,
+                timeoutMs: 14400,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countr"
+            },
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 5,
+                timeoutMs: 15400,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countu"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 5,
+                timeoutMs: 16400,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countd"
+            },
+            //right - 4
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 5,
+                timeoutMs: 17200,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countl2"
+            },
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 5,
+                timeoutMs: 18100,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countr2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 5,
+                timeoutMs: 19000,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countu2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 5,
+                timeoutMs: 19900,
+                counterValue: 1,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countd2"
+            },
+            //left - 4
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 5,
+                timeoutMs: 20500,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countr"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 5,
+                timeoutMs: 21500,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countd"
+            },
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 5,
+                timeoutMs: 22500,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countl"
+            },
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 5,
+                timeoutMs: 23500,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "gray",
+                counterName: "countu"
+            },
+            //right - 4
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 5,
+                timeoutMs: 24500,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countr2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 5,
+                timeoutMs: 25400,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countd2"
+            },
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 5,
+                timeoutMs: 26300,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countl2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 5,
+                timeoutMs: 27200,
+                counterValue: 2,
+                numberOfArrow: 1,
+                color: "white",
+                counterName: "countu2"
+            },               
+        
+        ]
+        for(const step of stepsLevel1){
             setTimeout(function () {
-                if (counters["countd2"] === 0) {
-                    rightCatArrowKeys(1, "down", 5);
-                }
-            }, 1000)
-        }, 8000)
-        setTimeout(function () {
-            if (counters["countl"] === 0) {
-                leftCatArrowKeys(1, "left", 5, 2);
-            }
-            setTimeout(function () {
-                if (counters["countr"] === 0) {
-                    leftCatArrowKeys(1, "right", 5, 2);
-                }
-            }
-                , 800)
-        }, 9800)
-        setTimeout(function () {
-            if (counters["countl2"] === 0) {
-                rightCatArrowKeys(1, "left", 5);
-            }
-            setTimeout(function () {
-                if (counters["countr2"] === 0) {
-                    rightCatArrowKeys(1, "right", 5);
-                }
-            }, 900)
-        }, 11800)
-        setTimeout(function () {
-            if (counters["countl"] === 1) {
-                leftCatArrowKeys(1, "left", 5, 2);
-            }
-            setTimeout(function () {
-                if (counters["countr"] === 1) {
-                    leftCatArrowKeys(1, "right", 5, 2);
-                }
-            }
-                , 1000)
-            setTimeout(function () {
-                if (counters["countu"] === 1) {
-                    leftCatArrowKeys(1, "up", 5, 2);
-                }
-            }
-                , 2000)
-            setTimeout(function () {
-                if (counters["countd"] === 1) {
-                    leftCatArrowKeys(1, "down", 5, 2);
-                }
-            }
-                , 3000)
-        }, 13400)
-        setTimeout(function () {
-            if (counters["countl2"] === 1) {
-                rightCatArrowKeys(1, "left", 5);
-            }
-            setTimeout(function () {
-                if (counters["countr2"] === 1) {
-                    rightCatArrowKeys(1, "right", 5);
-                }
-                setTimeout(function () {
-                    if (counters["countu2"] === 1) {
-                        rightCatArrowKeys(1, "up", 5);
+                if (counters[step.counterName] === step.counterValue) {                    
+                    if(step.cat === "left"){
+                        const colorNumber = colors[step.color];
+                        leftCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx, colorNumber);
+                    } else if(step.cat === "right"){
+                        rightCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx);
                     }
-                    setTimeout(function () {
-                        if (counters["countd2"] === 1) {
-                            rightCatArrowKeys(1, "down", 5);
-                        }
-                    }, 900)
-                }, 900)
-            }, 900)
-        }, 17200)
-        setTimeout(function () {
-            if (counters["countr"] === 2) {
-                leftCatArrowKeys(1, "right", 5, 2);
-            }
-            setTimeout(function () {
-                if (counters["countd"] === 2) {
-                    leftCatArrowKeys(1, "down", 5, 2);
                 }
-            }
-                , 1000)
-            setTimeout(function () {
-                if (counters["countl"] === 2) {
-                    leftCatArrowKeys(1, "left", 5, 2);
-                }
-            }
-                , 2000)
-            setTimeout(function () {
-                if (counters["countu"] === 2) {
-                    leftCatArrowKeys(1, "up", 5, 2);
-                }
-            }
-                , 3000)
-
-        }, 20500)
-        setTimeout(function () {
-            if (counters["countr2"] === 2) {
-                rightCatArrowKeys(1, "right", 5);
-            }
-            setTimeout(function () {
-                if (counters["countd2"] === 2) {
-                    rightCatArrowKeys(1, "down", 5);
-                }
-                setTimeout(function () {
-                    if (counters["countl2"] === 2) {
-                        rightCatArrowKeys(1, "left", 5);
-                    }
-                    setTimeout(function () {
-                        if (counters["countu2"] === 2) {
-                            rightCatArrowKeys(1, "up", 5);
-                        }
-                    }, 900)
-                }, 900)
-            }, 900)
-        }, 24500)
+            }, step.timeoutMs)
+        }
+        
         setTimeout(function () {
             if (points >= 9 && counters["countu2"] === 3) {
                 currlevel = 2;
@@ -446,247 +589,460 @@ function update() {
             music1.stop(); music2.play();
             currMusic = 2;
         }
-        setTimeout(function () {
-            if (counters["countr"] === 3) {
-                leftCatArrowKeys(1, "right", 10, 3);
-            }
+        const stepsLevel2 = [
+            //left - 5
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 4110,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 4660,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd"
+            },
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 5160,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu"
+            },
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 5660,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countuu"
+            },
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 6060,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl"
+            },
+            //right - 5
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 6860,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 7260,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 7760,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 8260,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countuu2"
+            },
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 8910,
+                counterValue: 3,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl2"
+            },
+            //left - 5
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 9610,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd"
+            },
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 10260,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl"
+            },
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 10660,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr"
+            },
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 11160,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countrr"
+            },
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 11560,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu"
+            },
+            //right - 5
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 11860,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd2"
+            },
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 12260,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl2"
+            },
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 12760,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr2"
+            },
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 13260,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countrr2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 13910,
+                counterValue: 4,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu2"
+            },
+            //left - 5
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 14610,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu"
+            },
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 15260,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 15760,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 16160,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countdd"
+            },
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 16560,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl"
+            },
+            //right - 5
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 17060,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu2"
+            },
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 17460,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 17960,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 18460,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countdd2"
+            },
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 19110,
+                counterValue: 5,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl2"
+            },
+            //left - 5
+            {
+                cat: "left",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 19610,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl"
+            },
+            {
+                cat: "left",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs:  20260,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu"
+            },            
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 20760,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd"
+            },
+            {
+                cat: "left",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 21260,
+                counterValue: 1,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countdd"
+            },
+            {
+                cat: "left",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 21660,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr"
+            },
+            //right - 8
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 21960,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl2"
+            },
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 22260,
+                counterValue: 0,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countll2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 22560,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 22760,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countd2"
+            },
+            {
+                cat: "right",
+                direction: "down",
+                stepPx: 10,
+                timeoutMs: 23060,
+                counterValue: 2,
+                numberOfArrow: 2,
+                color: "orange",
+                counterName: "countdd2"
+            },
+            {
+                cat: "right",
+                direction: "right",
+                stepPx: 10,
+                timeoutMs: 23560,
+                counterValue: 6,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countr2"
+            },
+            {
+                cat: "right",
+                direction: "up",
+                stepPx: 10,
+                timeoutMs: 23760,
+                counterValue: 7,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countu2"
+            },
+            {
+                cat: "right",
+                direction: "left",
+                stepPx: 10,
+                timeoutMs: 24360,
+                counterValue: 7,
+                numberOfArrow: 1,
+                color: "orange",
+                counterName: "countl2"
+            },
+            
+        ]
+        for(const step of stepsLevel2){
             setTimeout(function () {
-                if (counters["countd"] === 3) {
-                    leftCatArrowKeys(1, "down", 10, 3);
-                }
-            }
-                , 650)
-            setTimeout(function () {
-                if (counters["countu"] === 3) {
-                    leftCatArrowKeys(1, "up", 10, 3);
-                }
-            }
-                , 1050)
-            setTimeout(function () {
-                if (counters["countuu"] === 0) {
-                    leftCatArrowKeys(2, "up", 10, 3);
-                }
-            }
-                , 1550)
-            setTimeout(function () {
-                if (counters["countl"] === 3) {
-                    leftCatArrowKeys(1, "left", 10, 3);
-                }
-            }
-                , 1950)
-
-        }, 4110)
-        setTimeout(function () {
-            if (counters["countr2"] === 3) {
-                rightCatArrowKeys(1, "right", 10);
-            }
-            setTimeout(function () {
-                if (counters["countd2"] === 3) {
-                    rightCatArrowKeys(1, "down", 10);
-                }
-                setTimeout(function () {
-                    if (counters["countu2"] === 3) {
-                        rightCatArrowKeys(1, "up", 10);
+                if (counters[step.counterName] === step.counterValue) {                    
+                    if(step.cat === "left"){
+                        const colorNumber = colors[step.color];
+                        leftCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx, colorNumber);
+                    } else if(step.cat === "right"){
+                        rightCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx);
                     }
-                    setTimeout(function () {
-                        if (counters["countuu2"] === 0) {
-                            rightCatArrowKeys(2, "up", 10);
-                        }
-                        setTimeout(function () {
-                            if (counters["countl2"] === 3) {
-                                rightCatArrowKeys(1, "left", 10);
-                            }
-                        }, 400)
-                    }, 500)
-                }, 500)
-            }, 650)
-        }, 6860)
-        setTimeout(function () {
-            if (counters["countd"] === 4) {
-                leftCatArrowKeys(1, "down", 10, 3);
-            }
-
-            setTimeout(function () {
-                if (counters["countl"] === 4) {
-                    leftCatArrowKeys(1, "left", 10, 3);
                 }
-            }
-                , 650)
-            setTimeout(function () {
-                if (counters["countr"] === 4) {
-                    leftCatArrowKeys(1, "right", 10, 3);
-                }
-            }
-                , 1050)
-            setTimeout(function () {
-
-                if (counters["countrr"] === 0) {
-                    leftCatArrowKeys(2, "right", 10, 3);
-                }
-            }
-                , 1550)
-            setTimeout(function () {
-                if (counters["countu"] === 4) {
-                    leftCatArrowKeys(1, "up", 10, 3);
-                }
-            }
-                , 1950)
-
-        }, 9610)
-        setTimeout(function () {
-
-            if (counters["countd2"] === 4) {
-                rightCatArrowKeys(1, "down", 10);
-            }
-            setTimeout(function () {
-                if (counters["countl2"] === 4) {
-                    rightCatArrowKeys(1, "left", 10);
-                }
-                setTimeout(function () {
-                    if (counters["countr2"] === 4) {
-                        rightCatArrowKeys(1, "right", 10);
-                    }
-
-                    setTimeout(function () {
-                        if (counters["countrr2"] === 0) {
-                            rightCatArrowKeys(2, "right", 10);
-                        }
-                        setTimeout(function () {
-                            if (counters["countu2"] === 4) {
-                                rightCatArrowKeys(1, "up", 10);
-                            }
-                        }, 400)
-                    }, 500)
-                }, 500)
-            }, 650)
-        }, 11860)
-        setTimeout(function () {
-            if (counters["countu"] === 5) {
-                leftCatArrowKeys(1, "up", 10, 3);
-            }
-            setTimeout(function () {
-                if (counters["countr"] === 5) {
-                    leftCatArrowKeys(1, "right", 10, 3);
-                }
-            }
-                , 650)
-            setTimeout(function () {
-                if (counters["countd"] === 5) {
-                    leftCatArrowKeys(1, "down", 10, 3);
-                }
-            }
-                , 1050)
-            setTimeout(function () {
-                if (counters["countdd"] === 0) {
-                    leftCatArrowKeys(2, "down", 10, 3);
-                }
-            }
-                , 1550)
-            setTimeout(function () {
-                if (counters["countl"] === 5) {
-                    leftCatArrowKeys(1, "left", 10, 3);
-                }
-            }
-                , 1950)
-
-        }, 14610)
-        setTimeout(function () {
-            if (counters["countu2"] === 5) {
-                rightCatArrowKeys(1, "up", 10);
-            }
-            setTimeout(function () {
-                if (counters["countr2"] === 5) {
-                    rightCatArrowKeys(1, "right", 10);
-                }
-                setTimeout(function () {
-                    if (counters["countd2"] === 5) {
-                        rightCatArrowKeys(1, "down", 10);
-                    }
-                    setTimeout(function () {
-                        if (counters["countdd2"] === 0) {
-                            rightCatArrowKeys(2, "down", 10);
-                        }
-                        setTimeout(function () {
-                            if (counters["countl2"] === 5) {
-                                rightCatArrowKeys(1, "left", 10);
-                            }
-                        }, 400)
-                    }, 500)
-                }, 500)
-            }, 650)
-        }, 17060)
-        setTimeout(function () {
-            if (counters["countl"] === 6) {
-                leftCatArrowKeys(1, "left", 10, 3);
-            }
-            setTimeout(function () {
-                if (counters["countu"] === 6) {
-                    leftCatArrowKeys(1, "up", 10, 3);
-                }
-            }
-                , 650)
-            setTimeout(function () {
-                if (counters["countd"] === 6) {
-                    leftCatArrowKeys(1, "down", 10, 3);
-                }
-            }
-                , 1050)
-            setTimeout(function () {
-
-                if (counters["countdd"] === 1) {
-                    leftCatArrowKeys(2, "down", 10, 3);
-                }
-            }
-                , 1550)
-            setTimeout(function () {
-                if (counters["countr"] === 6) {
-                    leftCatArrowKeys(1, "right", 10, 3);
-                }
-            }
-                , 1950)
-
-        }, 19610)
-        setTimeout(function () {
-            if (counters["countl2"] === 6) {
-                rightCatArrowKeys(1, "left", 10);
-            }
-
-            setTimeout(function () {
-                if (counters["countll2"] === 0) {
-                    rightCatArrowKeys(2, "left", 10);
-                }
-                setTimeout(function () {
-                    if (counters["countu2"] === 6) {
-                        rightCatArrowKeys(1, "up", 10);
-                    }
-                    setTimeout(function () {
-                        if (counters["countd2"] === 6) {
-                            rightCatArrowKeys(1, "down", 10);
-                        }
-                        setTimeout(function () {
-                            if (counters["countdd2"] === 1) {
-                                rightCatArrowKeys(2, "down", 10);
-                            }
-                            setTimeout(function () {
-                                if (counters["countr2"] === 6) {
-                                    rightCatArrowKeys(1, "right", 10);
-                                }
-                                setTimeout(function () {
-                                    if (counters["countu2"] === 7) {
-                                        rightCatArrowKeys(1, "up", 10);
-                                    }
-                                    setTimeout(function () {
-                                        if (counters["countl2"] === 7) {
-                                            rightCatArrowKeys(1, "left", 10);
-                                        }
-                                    }, 300)
-                                }, 300)
-                            }, 100)
-                        }, 400)
-                    }, 500)
-                }, 200)
-            }, 600)
-        }, 21960)
+            }, step.timeoutMs)
+        }
+        
         setTimeout(function () {
             if (points >= 28 && counters["countl2"] === 8) {
                 setTimeout(function () { 
