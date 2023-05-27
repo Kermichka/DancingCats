@@ -14,14 +14,21 @@ let points = 0;
 let isRulesShown = false;
 let radio, level1, level2, level3, levelf, currlevel = 1, win, credits;
 let hitboxEnter = 206 * 0.8 - 80, hitboxExit = -206 * 0.8 + 80;
-let currMusic = 0;
-const counters = {
-    countu: 0, countd: 0, countl: 0, countr: 0,
-    countuu: 0, countdd: 0, countll: 0, countrr: 0,
-    countu2: 0, countd2: 0, countl2: 0, countr2: 0,
-    countuu2: 0, countdd2: 0, countll2: 0, countrr2: 0
-}
 let needed = 9, clicks, go
+let currMusic = 0;
+const countersLeft = {
+    up: [0, 0],
+    down: [0, 0],
+    left: [0, 0],
+    right: [0, 0],
+};
+const countersRight = {
+    up: [0, 0],
+    down: [0, 0],
+    left: [0, 0],
+    right: [0, 0],
+};
+
 function preload() {
     Game.load.spritesheet('cat', 'pictures/cat-spritesheets/cat.png', (383 * 3) / 3, (383 * 6) / 6);
     Game.load.spritesheet('cat2', 'pictures/cat-spritesheets/cat2.png', (383 * 3) / 3, (383 * 6) / 6);
@@ -197,64 +204,64 @@ function update() {
 
     if (currlevel === 1) Level1();
     else if (currlevel === 2) Level2();
-    else if (currlevel === 3) Level3();
+    //else if (currlevel === 3) Level3();
 
     function rightCatArrowKeys(numberOfArrow, direction, speed) {
-        const rightCatConsumeArrow = (arrow, catIndex, counterName) => {
-            counters[counterName] = counters[counterName] || 0;
+        const rightCatConsumeArrow = (arrow, catIndex, countersPropertyPath) => {
+            countersRight[countersPropertyPath] = countersRight[countersPropertyPath] || 0;
             arrow.y -= speed;
             if (arrow.y < hitboxEnter && arrow.y >= hitboxExit) {
                 if (cursors[direction].isDown) {
                     const animationName = `${direction}${catIndex}`;
                     cat.animations.play(animationName);
                     points++;
-                    counters[counterName]++;
+                    countersRight[countersPropertyPath][numberOfArrow - 1]++;
                     arrow.y = window.innerHeight;
                 }
             }
             else if (arrow.y < hitboxExit) {
-                counters[counterName]++;
+                countersRight[countersPropertyPath][numberOfArrow - 1]++;
                 arrow.y = window.innerHeight;
             }
         }
         if (numberOfArrow === 1) {
             if (direction === "up") {
-                rightCatConsumeArrow(up_a2, 1, "countu2");
+                rightCatConsumeArrow(up_a2, 1, "up");
             }
             else if (direction === "down") {
-                rightCatConsumeArrow(down_a2, 1, "countd2");
+                rightCatConsumeArrow(down_a2, 1, "down");
             }
             else if (direction === "right") {
-                rightCatConsumeArrow(right_a2, 1, "countr2");
+                rightCatConsumeArrow(right_a2, 1, "right");
             }
             else if (direction === "left") {
-                rightCatConsumeArrow(left_a2, 1, "countl2");
+                rightCatConsumeArrow(left_a2, 1, "left");
             }
         }
         else if (numberOfArrow === 2) {
             if (direction === "up") {
-                rightCatConsumeArrow(up_aa2, 1, "countuu2");
+                rightCatConsumeArrow(up_aa2, 1, "up");
             }
             else if (direction === "down") {
-                rightCatConsumeArrow(down_aa2, 1, "countdd2");
+                rightCatConsumeArrow(down_aa2, 1, "down");
             }
             else if (direction === "right") {
-                rightCatConsumeArrow(right_aa2, 1, "countrr2");
+                rightCatConsumeArrow(right_aa2, 1, "right");
             }
             else if (direction === "left") {
-                rightCatConsumeArrow(left_aa2, 1, "countll2");
+                rightCatConsumeArrow(left_aa2, 1, "left");
             }
         }
     }
     function leftCatArrowKeys(numberOfArrow, direction, speed, whichCat) {
-        const leftCatConsumeArrow = (arrow, counterName) => {
-            counters[counterName] = counters[counterName] || 0;
+        const leftCatConsumeArrow = (arrow, countersPropertyPath) => {
+            countersLeft[countersPropertyPath] = countersLeft[countersPropertyPath] || 0;
             if (arrow.y > 0) {
                 arrow.y -= speed;
             }
             else {
                 const animationName = `${direction}${whichCat}`;
-                counters[counterName]++;
+                countersLeft[countersPropertyPath][numberOfArrow - 1]++;
                 arrow.y = window.innerHeight;
                 if (whichCat === 2) cat2.animations.play(animationName);
                 else if (whichCat === 3) cat3.animations.play(animationName);
@@ -262,30 +269,30 @@ function update() {
         }
         if (numberOfArrow === 1) {
             if (direction === "up") {
-                leftCatConsumeArrow(up_a, "countu");
+                leftCatConsumeArrow(up_a, "up");
             }
             else if (direction === "down") {
-                leftCatConsumeArrow(down_a, "countd");
+                leftCatConsumeArrow(down_a, "down");
             }
             else if (direction === "right") {
-                leftCatConsumeArrow(right_a, "countr");
+                leftCatConsumeArrow(right_a, "right");
             }
             else if (direction === "left") {
-                leftCatConsumeArrow(left_a, "countl");
+                leftCatConsumeArrow(left_a, "left");
             }
         }
         if (numberOfArrow === 2) {
             if (direction === "up") {
-                leftCatConsumeArrow(up_aa, "countuu");
+                leftCatConsumeArrow(up_aa, "up");
             }
             else if (direction === "down") {
-                leftCatConsumeArrow(down_aa, "countdd");
+                leftCatConsumeArrow(down_aa, "down");
             }
             else if (direction === "right") {
-                leftCatConsumeArrow(right_aa, "countrr");
+                leftCatConsumeArrow(right_aa, "right");
             }
             else if (direction === "left") {
-                leftCatConsumeArrow(left_aa, "countll");
+                leftCatConsumeArrow(left_aa, "left");
             }
         }
     }
@@ -299,7 +306,7 @@ function update() {
         if (level1.x != Game.innerwidth) {
             level1.x += 10;
         }
-        
+
         const stepsLevel1 = [
             //left - 2
             {
@@ -310,7 +317,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countu"
+                counterName: "up"
             },
             {
                 cat: "left",
@@ -320,7 +327,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countd"
+                counterName: "down"
             },
             //right - 2
             {
@@ -331,7 +338,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -341,7 +348,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countd2"
+                counterName: "down"
             },
             //left - 2
             {
@@ -352,7 +359,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countl"
+                counterName: "left"
             },
             {
                 cat: "left",
@@ -362,7 +369,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countr"
+                counterName: "right"
             },
             //right - 2
             {
@@ -373,7 +380,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countl2"
+                counterName: "left"
             },
             {
                 cat: "right",
@@ -383,7 +390,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countr2"
+                counterName: "right"
             },
             //left - 4
             {
@@ -394,7 +401,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countl"
+                counterName: "left"
             },
             {
                 cat: "left",
@@ -404,7 +411,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countr"
+                counterName: "right"
             },
             {
                 cat: "left",
@@ -414,7 +421,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countu"
+                counterName: "up"
             },
             {
                 cat: "left",
@@ -424,7 +431,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countd"
+                counterName: "down"
             },
             //right - 4
             {
@@ -435,7 +442,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countl2"
+                counterName: "left"
             },
             {
                 cat: "right",
@@ -445,7 +452,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -455,7 +462,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -465,7 +472,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countd2"
+                counterName: "down"
             },
             //left - 4
             {
@@ -476,7 +483,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countr"
+                counterName: "right"
             },
             {
                 cat: "left",
@@ -486,7 +493,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -496,7 +503,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countl"
+                counterName: "left"
             },
             {
                 cat: "left",
@@ -506,7 +513,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "gray",
-                counterName: "countu"
+                counterName: "up"
             },
             //right - 4
             {
@@ -517,7 +524,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -527,7 +534,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -537,7 +544,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countl2"
+                counterName: "left"
             },
             {
                 cat: "right",
@@ -547,29 +554,31 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 1,
                 color: "white",
-                counterName: "countu2"
-            },               
-        
+                counterName: "up"
+            },
+
         ]
-        for(const step of stepsLevel1){
+        for (const step of stepsLevel1) {
             setTimeout(function () {
-                if (counters[step.counterName] === step.counterValue) {                    
-                    if(step.cat === "left"){
+                if (step.cat === "left") {
+                    if (countersLeft[step.counterName][step.numberOfArrow-1] === step.counterValue) {
                         const colorNumber = colors[step.color];
                         leftCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx, colorNumber);
-                    } else if(step.cat === "right"){
+                    }
+                } else if (step.cat === "right") {
+                    if (countersRight[step.counterName][step.numberOfArrow-1] === step.counterValue) {
                         rightCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx);
                     }
                 }
             }, step.timeoutMs)
         }
-        
+
         setTimeout(function () {
-            if (points >= 9 && counters["countu2"] === 3) {
+            if (points >= 9 && countersRight.up[0] === 3) {
                 currlevel = 2;
                 needed = 28;
             }
-            else if (points < 9 && counters["countu2"] === 3) {
+            else if (points < 9 && countersRight.up[0] === 3) {
                 levelf.anchor.setTo(0.5);
                 levelf.x = Game.width / 2;
                 setTimeout(function () {
@@ -599,7 +608,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr"
+                counterName: "right"
             },
             {
                 cat: "left",
@@ -609,7 +618,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -619,7 +628,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu"
+                counterName: "up"
             },
             {
                 cat: "left",
@@ -629,7 +638,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countuu"
+                counterName: "up"
             },
             {
                 cat: "left",
@@ -639,7 +648,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl"
+                counterName: "left"
             },
             //right - 5
             {
@@ -650,7 +659,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -660,7 +669,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -670,7 +679,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -680,7 +689,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countuu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -690,7 +699,7 @@ function update() {
                 counterValue: 3,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl2"
+                counterName: "left"
             },
             //left - 5
             {
@@ -701,7 +710,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -711,7 +720,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl"
+                counterName: "left"
             },
             {
                 cat: "left",
@@ -721,7 +730,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr"
+                counterName: "right"
             },
             {
                 cat: "left",
@@ -731,7 +740,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countrr"
+                counterName: "right"
             },
             {
                 cat: "left",
@@ -741,7 +750,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu"
+                counterName: "up"
             },
             //right - 5
             {
@@ -752,7 +761,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -762,7 +771,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl2"
+                counterName: "left"
             },
             {
                 cat: "right",
@@ -772,7 +781,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -782,7 +791,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countrr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -792,7 +801,7 @@ function update() {
                 counterValue: 4,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu2"
+                counterName: "up"
             },
             //left - 5
             {
@@ -803,7 +812,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu"
+                counterName: "up"
             },
             {
                 cat: "left",
@@ -813,7 +822,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr"
+                counterName: "right"
             },
             {
                 cat: "left",
@@ -823,7 +832,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -833,7 +842,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countdd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -843,7 +852,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl"
+                counterName: "left"
             },
             //right - 5
             {
@@ -854,7 +863,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -864,7 +873,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -874,7 +883,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -884,7 +893,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countdd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -894,7 +903,7 @@ function update() {
                 counterValue: 5,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl2"
+                counterName: "left"
             },
             //left - 5
             {
@@ -905,18 +914,18 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl"
+                counterName: "left"
             },
             {
                 cat: "left",
                 direction: "up",
                 stepPx: 10,
-                timeoutMs:  20260,
+                timeoutMs: 20260,
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu"
-            },            
+                counterName: "up"
+            },
             {
                 cat: "left",
                 direction: "down",
@@ -925,7 +934,7 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -935,7 +944,7 @@ function update() {
                 counterValue: 1,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countdd"
+                counterName: "down"
             },
             {
                 cat: "left",
@@ -945,7 +954,7 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr"
+                counterName: "right"
             },
             //right - 8
             {
@@ -956,7 +965,7 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl2"
+                counterName: "left"
             },
             {
                 cat: "right",
@@ -966,7 +975,7 @@ function update() {
                 counterValue: 0,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countll2"
+                counterName: "left"
             },
             {
                 cat: "right",
@@ -976,7 +985,7 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -986,7 +995,7 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -996,7 +1005,7 @@ function update() {
                 counterValue: 2,
                 numberOfArrow: 2,
                 color: "orange",
-                counterName: "countdd2"
+                counterName: "down"
             },
             {
                 cat: "right",
@@ -1006,7 +1015,7 @@ function update() {
                 counterValue: 6,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countr2"
+                counterName: "right"
             },
             {
                 cat: "right",
@@ -1016,7 +1025,7 @@ function update() {
                 counterValue: 7,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countu2"
+                counterName: "up"
             },
             {
                 cat: "right",
@@ -1026,30 +1035,33 @@ function update() {
                 counterValue: 7,
                 numberOfArrow: 1,
                 color: "orange",
-                counterName: "countl2"
+                counterName: "left"
             },
-            
+
         ]
-        for(const step of stepsLevel2){
+        for (const step of stepsLevel2) {
             setTimeout(function () {
-                if (counters[step.counterName] === step.counterValue) {                    
-                    if(step.cat === "left"){
+                if (step.cat === "left") {
+                    if (countersLeft[step.counterName][step.numberOfArrow-1] === step.counterValue) {
                         const colorNumber = colors[step.color];
                         leftCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx, colorNumber);
-                    } else if(step.cat === "right"){
+                    }
+                } else if (step.cat === "right") { 
+                    if (countersRight[step.counterName][step.numberOfArrow-1] === step.counterValue) {
                         rightCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx);
                     }
                 }
             }, step.timeoutMs)
         }
-        
+
         setTimeout(function () {
-            if (points >= 28 && counters["countl2"] === 8) {
-                setTimeout(function () { 
-                    currlevel = 3; needed = 100 }
-                , 1000)
+            if (points >= 28 && countersRight.left[0] === 8) {
+                setTimeout(function () {
+                    currlevel = 3; needed = 100
+                }
+                    , 1000)
             }
-            else if (points < 28 && counters["countl2"] === 8) {
+            else if (points < 28 && countersRight.left[0] === 8) {
                 levelf.anchor.setTo(0.5);
                 levelf.x = Game.width / 2;
                 setTimeout(function () {
@@ -1059,6 +1071,7 @@ function update() {
             }
         }, 26000)
     }
+    /*
     function Level3() {
         if (level3.x != Game.innerwidth) level3.x += 10
         cat3.y = -window.innerHeight;
@@ -1081,43 +1094,43 @@ function update() {
         setTimeout(function () {
             if (currMusic === 3) {
                 if (cursors.up.isDown &&
-                    counters["countu2"] < counters["countd2"] + 1 &&
-                    counters["countu2"] < counters["countr2"] + 1 &&
-                    counters["countu2"] < counters["countl2"] + 1) {
+                    countersRight.up[0] < countersRight.down[0] + 1 &&
+                    countersRight.up[0] < countersRight.right[0] + 1 &&
+                    counters[countersRight.up[0]] < counters[countersRight.left[0]] + 1) {
                     go.y = -1000;
                     cat.animations.play('up1', 30);
                     cat4.animations.play('up4', 30);
-                    counters["countu2"]++;
+                    countersRight.up[0]++;
                     points++;
                 }
                 else if (cursors.down.isDown &&
-                    counters["countd2"] < counters["countu2"] + 1 &&
-                    counters["countd2"] < counters["countl2"] + 1 &&
-                    counters["countd2"] < counters["countr2"] + 1) {
+                    countersRight.down[0] < countersRight.up[0] + 1 &&
+                    countersRight.down[0] < countersRight.left[0] + 1 &&
+                    countersRight.down[0] < countersRight.right[0] + 1) {
                     go.y = -1000;
                     cat.animations.play('down1', 30);
                     cat4.animations.play('down4', 30);
-                    counters["countd2"]++;
+                    countersRight.down[0]++;
                     points++;
                 }
                 else if (cursors.right.isDown &&
-                    counters["countr2"] < counters["countl2"] + 1 &&
-                    counters["countr2"] < counters["countd2"] + 1 &&
-                    counters["countr2"] < counters["countu2"] + 1) {
+                    countersRight.right[0] < countersRight.left[0] + 1 &&
+                    countersRight.right[0] < countersRight.down[0] + 1 &&
+                    countersRight.right[0] < countersRight.up[0] + 1) {
                     go.y = -1000;
                     cat.animations.play('right1', 30);
                     cat4.animations.play('right4', 30);
-                    counters["countr2"]++;
+                    countersRight.right[0]++;
                     points++;
                 }
                 else if (cursors.left.isDown &&
-                    counters["countl2"] < counters["countr2"] + 1 &&
-                    counters["countl2"] < counters["countd2"] + 1 &&
-                    counters["countl2"] < counters["countu2"] + 1) {
+                    countersRight.left[0] < countersRight.right[0] + 1 &&
+                    countersRight.left[0] < countersRight.down[0] + 1 &&
+                    countersRight.left[0] < countersRight.up[0] + 1) {
                     go.y = -1000;
                     cat.animations.play('left1', 30);
                     cat4.animations.play('left4', 30);
-                    counters["countl2"]++;
+                    countersRight.left[0]++;
                     points++;
                 }
             }
@@ -1143,5 +1156,5 @@ function update() {
             }
         }, 20000)
 
-    }
+    }*/
 }
