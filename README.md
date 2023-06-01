@@ -12,10 +12,10 @@ This program is a 2D game about dancing cats. It's all about being rhytmic and f
 
 ## **Gameplay & Rules**
 
-By looking at the right arrows you see your opponent's pattern and dancing. Use your keyboard's arrow keys to follow the left pattern. *Be careful some lefts arrows are not the same as the left ones!* 
+By looking at the left arrows you see your opponent's pattern and dancing. Use your keyboard's arrow keys to follow the right pattern. *Be careful some left arrows are not the same as the right ones!* 
 
-- Level 1 & 2: follow the left pattern
-- Level 3: spam your keyboard's arrow keys, but be careful enough to not repeat the last one you pressed!
+- Level 1 & 2: follow the right pattern
+- Level 3: spam your keyboard's arrow keys, but be careful enough to not repeat the last key you pressed!
 
 ## **Who's the creator?**
 
