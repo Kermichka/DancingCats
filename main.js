@@ -14,7 +14,7 @@ let points = 0;
 let isRulesShown = false;
 let radio, level1, level2, level3, levelf, currlevel = 1, win, credits;
 let hitboxEnter = 206 * 0.8 - 80, hitboxExit = -206 * 0.8 + 80;
-let needed = 9, clicks, go, isItPopped = false;
+let needed = 9, clicks, go;
 let currMusic = 0;
 const countersLeft = {
     up: [0, 0],
@@ -202,11 +202,10 @@ function update() {
     radio.animations.play('dance');
     if (currMusic === 0) { music1.play(); currMusic = 1; }
 
-    //if (currlevel === 1) Level1();
-    //else if (currlevel === 2) Level2();
-    //else if (currlevel === 3) Level3();
-    Level3();
-
+    if (currlevel === 1) Level1();
+    else if (currlevel === 2) Level2();
+    else if (currlevel === 3) Level3();
+    
     function rightCatArrowKeys(numberOfArrow, direction, speed) {
         const rightCatConsumeArrow = (arrow, catIndex, countersPropertyPath) => {
             countersRight[countersPropertyPath] = countersRight[countersPropertyPath] || 0;
@@ -1095,7 +1094,7 @@ function update() {
             }, 4000)
         }, 5000)
         setTimeout(function () {
-            if (true || currMusic === 3) {
+            if (currMusic === 3) {
                 for (const direction of Object.keys(countersRight)) {
                     const isNewArrowPressed = Object.keys(countersRight)
                         //.filter(d => d !== direction)
