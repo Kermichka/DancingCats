@@ -14,7 +14,7 @@ let points = 0;
 let isRulesShown = false;
 let radio, level1, level2, level3, levelf, currlevel = 1, win, credits;
 let hitboxEnter = 206 * 0.8 - 80, hitboxExit = -206 * 0.8 + 80;
-let needed = 9, clicks, go
+let needed = 9, clicks, go, isItPopped = false;
 let currMusic = 0;
 const countersLeft = {
     up: [0, 0],
@@ -202,9 +202,10 @@ function update() {
     radio.animations.play('dance');
     if (currMusic === 0) { music1.play(); currMusic = 1; }
 
-    if (currlevel === 1) Level1();
-    else if (currlevel === 2) Level2();
+    //if (currlevel === 1) Level1();
+    //else if (currlevel === 2) Level2();
     //else if (currlevel === 3) Level3();
+    Level3();
 
     function rightCatArrowKeys(numberOfArrow, direction, speed) {
         const rightCatConsumeArrow = (arrow, catIndex, countersPropertyPath) => {
@@ -561,12 +562,12 @@ function update() {
         for (const step of stepsLevel1) {
             setTimeout(function () {
                 if (step.cat === "left") {
-                    if (countersLeft[step.counterName][step.numberOfArrow-1] === step.counterValue) {
+                    if (countersLeft[step.counterName][step.numberOfArrow - 1] === step.counterValue) {
                         const colorNumber = colors[step.color];
                         leftCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx, colorNumber);
                     }
                 } else if (step.cat === "right") {
-                    if (countersRight[step.counterName][step.numberOfArrow-1] === step.counterValue) {
+                    if (countersRight[step.counterName][step.numberOfArrow - 1] === step.counterValue) {
                         rightCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx);
                     }
                 }
@@ -992,7 +993,7 @@ function update() {
                 direction: "down",
                 stepPx: 10,
                 timeoutMs: 22760,
-                counterValue: 6,
+                counterValue: 7,
                 numberOfArrow: 1,
                 color: "orange",
                 counterName: "down"
@@ -1042,12 +1043,12 @@ function update() {
         for (const step of stepsLevel2) {
             setTimeout(function () {
                 if (step.cat === "left") {
-                    if (countersLeft[step.counterName][step.numberOfArrow-1] === step.counterValue) {
+                    if (countersLeft[step.counterName][step.numberOfArrow - 1] === step.counterValue) {
                         const colorNumber = colors[step.color];
                         leftCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx, colorNumber);
                     }
-                } else if (step.cat === "right") { 
-                    if (countersRight[step.counterName][step.numberOfArrow-1] === step.counterValue) {
+                } else if (step.cat === "right") {
+                    if (countersRight[step.counterName][step.numberOfArrow - 1] === step.counterValue) {
                         rightCatArrowKeys(step.numberOfArrow, step.direction, step.stepPx);
                     }
                 }
@@ -1057,7 +1058,8 @@ function update() {
         setTimeout(function () {
             if (points >= 28 && countersRight.left[0] === 8) {
                 setTimeout(function () {
-                    currlevel = 3; needed = 100
+                    currlevel = 3;
+                    needed = 100;
                 }
                     , 1000)
             }
@@ -1071,7 +1073,6 @@ function update() {
             }
         }, 26000)
     }
-    /*
     function Level3() {
         if (level3.x != Game.innerwidth) level3.x += 10
         cat3.y = -window.innerHeight;
@@ -1087,51 +1088,27 @@ function update() {
                 isRulesShown = true;
             }
             setTimeout(function () {
-                if (isRulesShown) { clicks.x = -1000; }
+                if (isRulesShown) {
+                    clicks.x = -1000;
+                }
                 go.x = Game.width / 2;
             }, 4000)
         }, 5000)
         setTimeout(function () {
-            if (currMusic === 3) {
-                if (cursors.up.isDown &&
-                    countersRight.up[0] < countersRight.down[0] + 1 &&
-                    countersRight.up[0] < countersRight.right[0] + 1 &&
-                    counters[countersRight.up[0]] < counters[countersRight.left[0]] + 1) {
-                    go.y = -1000;
-                    cat.animations.play('up1', 30);
-                    cat4.animations.play('up4', 30);
-                    countersRight.up[0]++;
-                    points++;
-                }
-                else if (cursors.down.isDown &&
-                    countersRight.down[0] < countersRight.up[0] + 1 &&
-                    countersRight.down[0] < countersRight.left[0] + 1 &&
-                    countersRight.down[0] < countersRight.right[0] + 1) {
-                    go.y = -1000;
-                    cat.animations.play('down1', 30);
-                    cat4.animations.play('down4', 30);
-                    countersRight.down[0]++;
-                    points++;
-                }
-                else if (cursors.right.isDown &&
-                    countersRight.right[0] < countersRight.left[0] + 1 &&
-                    countersRight.right[0] < countersRight.down[0] + 1 &&
-                    countersRight.right[0] < countersRight.up[0] + 1) {
-                    go.y = -1000;
-                    cat.animations.play('right1', 30);
-                    cat4.animations.play('right4', 30);
-                    countersRight.right[0]++;
-                    points++;
-                }
-                else if (cursors.left.isDown &&
-                    countersRight.left[0] < countersRight.right[0] + 1 &&
-                    countersRight.left[0] < countersRight.down[0] + 1 &&
-                    countersRight.left[0] < countersRight.up[0] + 1) {
-                    go.y = -1000;
-                    cat.animations.play('left1', 30);
-                    cat4.animations.play('left4', 30);
-                    countersRight.left[0]++;
-                    points++;
+            if (true || currMusic === 3) {
+                for (const direction of Object.keys(countersRight)) {
+                    const isNewArrowPressed = Object.keys(countersRight)
+                        //.filter(d => d !== direction)
+                        .every(d => d === direction || countersRight[d][0] + 1 > countersRight[direction][0]);
+                    if (cursors[direction].isDown && isNewArrowPressed) {
+                        go.y = -1000;
+                        const animationNameCat1 = `${direction}1`
+                        const animationNameCat4 = `${direction}4`
+                        cat.animations.play(animationNameCat1, 30);
+                        cat4.animations.play(animationNameCat4, 30);
+                        points++;
+                        countersRight[direction][0] += 1;
+                    }
                 }
             }
         }, 10000)
@@ -1156,5 +1133,5 @@ function update() {
             }
         }, 20000)
 
-    }*/
+    }
 }
