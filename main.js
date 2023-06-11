@@ -2,11 +2,10 @@
 const Game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, '', { preload, create, update });
 let background, cat, cat2, cat3, cat4;
 let cursors;
-const l = 0; const r = 0; const d = 0; const u = 0;
-let up_a, down_a, left_a, right_a;
-let up_a2, down_a2, left_a2, right_a2;
-let up_aa, down_aa, left_aa, right_aa;
-let up_aa2, down_aa2, left_aa2, right_aa2;
+let upA, downA, leftA, rightA;
+let upA2, downA2, leftA2, rightA2;
+let upAA, downAA, leftAA, rightAA;
+let upAA2, downAA2, leftAA2, rightAA2;
 let upg, downg, rightg, leftg;
 let upg2, downg2, rightg2, leftg2;
 let music1, music2, music3;
@@ -133,39 +132,39 @@ function create () {
   cat4.animations.add('up4', [5, 4, 3, 3, 4, 5], 9, false).play();
   cat4.animations.add('right4', [14, 13, 14, 13, 12, 12], 7, false).play();
 
-  up_a = Game.add.sprite(280, window.innerHeight, 'up_a');
-  down_a = Game.add.sprite(150, window.innerHeight, 'down_a');
-  left_a = Game.add.sprite(20, window.innerHeight, 'left_a');
-  right_a = Game.add.sprite(410, window.innerHeight, 'right_a');
-  up_a.scale.setTo(0.8);
-  left_a.scale.setTo(0.8);
-  right_a.scale.setTo(0.8);
-  down_a.scale.setTo(0.8);
-  up_a2 = Game.add.sprite(Game.width / 2 + 440, window.innerHeight, 'up_a');
-  down_a2 = Game.add.sprite(Game.width / 2 + 310, window.innerHeight, 'down_a');
-  left_a2 = Game.add.sprite(Game.width / 2 + 180, window.innerHeight, 'left_a');
-  right_a2 = Game.add.sprite(Game.width / 2 + 570, window.innerHeight, 'right_a');
-  up_a2.scale.setTo(0.8);
-  left_a2.scale.setTo(0.8);
-  right_a2.scale.setTo(0.8);
-  down_a2.scale.setTo(0.8);
+  upA = Game.add.sprite(280, window.innerHeight, 'up_a');
+  downA = Game.add.sprite(150, window.innerHeight, 'down_a');
+  leftA = Game.add.sprite(20, window.innerHeight, 'left_a');
+  rightA = Game.add.sprite(410, window.innerHeight, 'right_a');
+  upA.scale.setTo(0.8);
+  leftA.scale.setTo(0.8);
+  rightA.scale.setTo(0.8);
+  downA.scale.setTo(0.8);
+  upA2 = Game.add.sprite(Game.width / 2 + 440, window.innerHeight, 'up_a');
+  downA2 = Game.add.sprite(Game.width / 2 + 310, window.innerHeight, 'down_a');
+  leftA2 = Game.add.sprite(Game.width / 2 + 180, window.innerHeight, 'left_a');
+  rightA2 = Game.add.sprite(Game.width / 2 + 570, window.innerHeight, 'right_a');
+  upA2.scale.setTo(0.8);
+  leftA2.scale.setTo(0.8);
+  rightA2.scale.setTo(0.8);
+  downA2.scale.setTo(0.8);
 
-  up_aa = Game.add.sprite(280, window.innerHeight, 'up_a');
-  down_aa = Game.add.sprite(150, window.innerHeight, 'down_a');
-  left_aa = Game.add.sprite(20, window.innerHeight, 'left_a');
-  right_aa = Game.add.sprite(410, window.innerHeight, 'right_a');
-  up_aa.scale.setTo(0.8);
-  left_aa.scale.setTo(0.8);
-  right_aa.scale.setTo(0.8);
-  down_aa.scale.setTo(0.8);
-  up_aa2 = Game.add.sprite(Game.width / 2 + 440, window.innerHeight, 'up_a');
-  down_aa2 = Game.add.sprite(Game.width / 2 + 310, window.innerHeight, 'down_a');
-  left_aa2 = Game.add.sprite(Game.width / 2 + 180, window.innerHeight, 'left_a');
-  right_aa2 = Game.add.sprite(Game.width / 2 + 570, window.innerHeight, 'right_a');
-  up_aa2.scale.setTo(0.8);
-  left_aa2.scale.setTo(0.8);
-  right_aa2.scale.setTo(0.8);
-  down_aa2.scale.setTo(0.8);
+  upAA = Game.add.sprite(280, window.innerHeight, 'up_a');
+  downAA = Game.add.sprite(150, window.innerHeight, 'down_a');
+  leftAA = Game.add.sprite(20, window.innerHeight, 'left_a');
+  rightAA = Game.add.sprite(410, window.innerHeight, 'right_a');
+  upAA.scale.setTo(0.8);
+  leftAA.scale.setTo(0.8);
+  rightAA.scale.setTo(0.8);
+  downAA.scale.setTo(0.8);
+  upAA2 = Game.add.sprite(Game.width / 2 + 440, window.innerHeight, 'up_a');
+  downAA2 = Game.add.sprite(Game.width / 2 + 310, window.innerHeight, 'down_a');
+  leftAA2 = Game.add.sprite(Game.width / 2 + 180, window.innerHeight, 'left_a');
+  rightAA2 = Game.add.sprite(Game.width / 2 + 570, window.innerHeight, 'right_a');
+  upAA2.scale.setTo(0.8);
+  leftAA2.scale.setTo(0.8);
+  rightAA2.scale.setTo(0.8);
+  downAA2.scale.setTo(0.8);
 
   level1 = Game.add.sprite(0, Game.height / 2, 'level1');
   level1.anchor.setTo(1, 0.5);
@@ -224,23 +223,23 @@ function update () {
     };
     if (numberOfArrow === 1) {
       if (direction === 'up') {
-        rightCatConsumeArrow(up_a2, 1, 'up');
+        rightCatConsumeArrow(upA2, 1, 'up');
       } else if (direction === 'down') {
-        rightCatConsumeArrow(down_a2, 1, 'down');
+        rightCatConsumeArrow(downA2, 1, 'down');
       } else if (direction === 'right') {
-        rightCatConsumeArrow(right_a2, 1, 'right');
+        rightCatConsumeArrow(rightA2, 1, 'right');
       } else if (direction === 'left') {
-        rightCatConsumeArrow(left_a2, 1, 'left');
+        rightCatConsumeArrow(leftA2, 1, 'left');
       }
     } else if (numberOfArrow === 2) {
       if (direction === 'up') {
-        rightCatConsumeArrow(up_aa2, 1, 'up');
+        rightCatConsumeArrow(upAA2, 1, 'up');
       } else if (direction === 'down') {
-        rightCatConsumeArrow(down_aa2, 1, 'down');
+        rightCatConsumeArrow(downAA2, 1, 'down');
       } else if (direction === 'right') {
-        rightCatConsumeArrow(right_aa2, 1, 'right');
+        rightCatConsumeArrow(rightAA2, 1, 'right');
       } else if (direction === 'left') {
-        rightCatConsumeArrow(left_aa2, 1, 'left');
+        rightCatConsumeArrow(leftAA2, 1, 'left');
       }
     }
   }
@@ -259,24 +258,24 @@ function update () {
     };
     if (numberOfArrow === 1) {
       if (direction === 'up') {
-        leftCatConsumeArrow(up_a, 'up');
+        leftCatConsumeArrow(upA, 'up');
       } else if (direction === 'down') {
-        leftCatConsumeArrow(down_a, 'down');
+        leftCatConsumeArrow(downA, 'down');
       } else if (direction === 'right') {
-        leftCatConsumeArrow(right_a, 'right');
+        leftCatConsumeArrow(rightA, 'right');
       } else if (direction === 'left') {
-        leftCatConsumeArrow(left_a, 'left');
+        leftCatConsumeArrow(leftA, 'left');
       }
     }
     if (numberOfArrow === 2) {
       if (direction === 'up') {
-        leftCatConsumeArrow(up_aa, 'up');
+        leftCatConsumeArrow(upAA, 'up');
       } else if (direction === 'down') {
-        leftCatConsumeArrow(down_aa, 'down');
+        leftCatConsumeArrow(downAA, 'down');
       } else if (direction === 'right') {
-        leftCatConsumeArrow(right_aa, 'right');
+        leftCatConsumeArrow(rightAA, 'right');
       } else if (direction === 'left') {
-        leftCatConsumeArrow(left_aa, 'left');
+        leftCatConsumeArrow(leftAA, 'left');
       }
     }
   }
@@ -286,8 +285,23 @@ function update () {
     orange: 3,
     black: 4
   };
+  function LevelUp (minPoints, condition, whichCounter, nextLevel, newMinPoints, timeOut) {
+    setTimeout(function () {
+      if (points >= minPoints && countersRight[whichCounter][0] === condition) {
+        currlevel = nextLevel;
+        needed = newMinPoints;
+      } else if (points < minPoints && countersRight[whichCounter][0] === condition) {
+        levelf.anchor.setTo(0.5);
+        levelf.x = Game.width / 2;
+        setTimeout(function () {
+          window.location.reload();
+        },
+        1000);
+      }
+    }, timeOut);
+  }
   function Level1 () {
-    if (level1.x != Game.innerwidth) {
+    if (level1.x !== Game.innerwidth) {
       level1.x += 10;
     }
 
@@ -556,24 +570,11 @@ function update () {
         }
       }, step.timeoutMs);
     }
-
-    setTimeout(function () {
-      if (points >= 9 && countersRight.up[0] === 3) {
-        currlevel = 2;
-        needed = 28;
-      } else if (points < 9 && countersRight.up[0] === 3) {
-        levelf.anchor.setTo(0.5);
-        levelf.x = Game.width / 2;
-        setTimeout(function () {
-          window.location.reload();
-        },
-        1000);
-      }
-    }, 34000);
+    LevelUp(9, 3, 'up', 2, 28, 34000);
   }
 
   function Level2 () {
-    if (level2.x != Game.innerwidth) level2.x += 10;
+    if (level2.x !== Game.innerwidth) level2.x += 10;
     cat2.y = -window.innerHeight;
     cat3.y = Game.height / 2 + 100;
     if (currMusic === 1) {
@@ -973,8 +974,8 @@ function update () {
         cat: 'right',
         direction: 'down',
         stepPx: 10,
-        timeoutMs: 22760,
-        counterValue: 7,
+        timeoutMs: 22860,
+        counterValue: 6,
         numberOfArrow: 1,
         color: 'orange',
         counterName: 'down'
@@ -983,8 +984,8 @@ function update () {
         cat: 'right',
         direction: 'down',
         stepPx: 10,
-        timeoutMs: 23060,
-        counterValue: 2,
+        timeoutMs: 23160,
+        counterValue: 1,
         numberOfArrow: 2,
         color: 'orange',
         counterName: 'down'
@@ -993,7 +994,7 @@ function update () {
         cat: 'right',
         direction: 'right',
         stepPx: 10,
-        timeoutMs: 23560,
+        timeoutMs: 23660,
         counterValue: 6,
         numberOfArrow: 1,
         color: 'orange',
@@ -1003,7 +1004,7 @@ function update () {
         cat: 'right',
         direction: 'up',
         stepPx: 10,
-        timeoutMs: 23760,
+        timeoutMs: 23860,
         counterValue: 7,
         numberOfArrow: 1,
         color: 'orange',
@@ -1013,7 +1014,7 @@ function update () {
         cat: 'right',
         direction: 'left',
         stepPx: 10,
-        timeoutMs: 24360,
+        timeoutMs: 24460,
         counterValue: 7,
         numberOfArrow: 1,
         color: 'orange',
@@ -1035,26 +1036,10 @@ function update () {
         }
       }, step.timeoutMs);
     }
-
-    setTimeout(function () {
-      if (points >= 28 && countersRight.left[0] === 8) {
-        setTimeout(function () {
-          currlevel = 3;
-          needed = 100;
-        }
-        , 1000);
-      } else if (points < 28 && countersRight.left[0] === 8) {
-        levelf.anchor.setTo(0.5);
-        levelf.x = Game.width / 2;
-        setTimeout(function () {
-          window.location.reload();
-        },
-        1500);
-      }
-    }, 26000);
+    LevelUp(28, 8, 'left', 3, 100, 26000);
   }
   function Level3 () {
-    if (level3.x != Game.innerwidth) level3.x += 10;
+    if (level3.x !== Game.innerwidth) level3.x += 10;
     cat3.y = -window.innerHeight;
     cat4.y = Game.height / 2 + 100;
     if (currMusic === 2) {
